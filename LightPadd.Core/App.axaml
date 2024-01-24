@@ -1,0 +1,36 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="LightPadd.Core.App"
+             RequestedThemeVariant="Dark">
+             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+
+    <Application.Resources>
+        <Color x:Key="LcarsGold">#FFFF9900</Color>
+        <Color x:Key="LcarsLavender">#FFCB99CC</Color>
+        <Color x:Key="LcarsBlueGray">#FF9999CD</Color>
+        <Color x:Key="LcarsRed">#FFCC6666</Color>
+        <Color x:Key="LcarsPeach">#FFFFCC9A</Color>
+        <Color x:Key="LcarsBlue">#FF9999FF</Color>
+        <Color x:Key="LcarsOrange">#FFFF9666</Color>
+        <Color x:Key="LcarsRedPurple">#FFCC6699</Color>
+
+        <FontFamily x:Key="LcarsFont">avares://LightPadd.Core/Fonts/LcarsFont.ttf#Swiss911 XCm BT</FontFamily>
+        <FontFamily x:Key="LcarsThinFont">avares://LightPadd.Core/Fonts/LcarsThinFont.ttf#Swiss911 UCm BT</FontFamily>		
+    </Application.Resources>
+
+	<Application.Styles>
+		<FluentTheme>
+			<FluentTheme.Palettes>
+				<ColorPaletteResources x:Key="Dark" Accent="#FFFE9900"/>
+			</FluentTheme.Palettes>
+		</FluentTheme>
+
+		<!--Force the LCARS thin font as the default font everywhere-->
+		<Style Selector="TextBlock">
+			<Setter Property="FontFamily" Value="{StaticResource LcarsThinFont}"/>
+			<Setter Property="Foreground" Value="{StaticResource LcarsGold}"/>
+			<Setter Property="FontSize" Value="20"/>
+		</Style>
+		
+	</Application.Styles>
+</Application>

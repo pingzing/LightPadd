@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+	<OptimizationPreference>Speed</OptimizationPreference>
+	<PublishReadyToRun>true</PublishReadyToRun>
+	<PublishTrimmed>true</PublishTrimmed>
+	<PublishSingleFile>true</PublishSingleFile>
+	<StripSymbols>true</StripSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.0.7" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.0.7" />
+    <PackageReference Include="Avalonia.LinuxFramebuffer" Version="11.0.7" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.7" />
+    <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.7" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<AvaloniaResource Include="Fonts\LcarsFont.ttf" />
+		<AvaloniaResource Include="Fonts\LcarsThinFont.ttf" />
+	</ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="MainView.axaml.cs">
+      <DependentUpon>MainView.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+</Project>
