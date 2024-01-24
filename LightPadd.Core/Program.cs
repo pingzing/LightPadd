@@ -1,7 +1,7 @@
-﻿using Avalonia;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading;
+using Avalonia;
 
 namespace LightPadd.Core
 {
@@ -33,13 +33,13 @@ namespace LightPadd.Core
                     Console.ReadKey(true);
                 }
             })
-            { IsBackground = true }.Start();
+            {
+                IsBackground = true
+            }.Start();
         }
 
         // Avalonia configuration, don't remove; also used by visual designer.
-        public static AppBuilder BuildAvaloniaApp()
-            => AppBuilder.Configure<App>()
-                .UsePlatformDetect()
-                .LogToTrace();
+        public static AppBuilder BuildAvaloniaApp() =>
+            AppBuilder.Configure<App>().UsePlatformDetect().LogToTrace();
     }
 }
