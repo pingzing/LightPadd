@@ -32,4 +32,8 @@
       <DependentUpon>MainView.axaml</DependentUpon>
     </Compile>
   </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="LcarsButton.axaml" />
+  </ItemGroup>
 </Project>

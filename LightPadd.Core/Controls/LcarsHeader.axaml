@@ -1,0 +1,76 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:controls="clr-namespace:LightPadd.Core.Controls;assembly=LightPadd.Core"
+			 xmlns:system="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d"
+			 d:DesignHeight="65"
+			 d:DesignWidth="200"
+			 x:Name="_this"
+             x:Class="LightPadd.Core.Controls.LcarsHeader">
+
+	<UserControl.DataTemplates>
+		<DataTemplate x:DataType="{x:Type system:String}">
+			<Border Background="Black"
+					Height="40"
+					Margin="20 0 20 0"
+					Padding="20 0 20 0"
+					IsVisible="True"
+					VerticalAlignment="Center">
+				<TextBlock x:Name="DefaultTextBlock"
+						   Classes="header"
+						   Foreground="{Binding ElementName=_this, Path=Foreground}"
+						   Text="{Binding .}"
+						   TextTrimming="None"
+						   TextWrapping="NoWrap"
+						   VerticalAlignment="Center"/>
+			</Border>
+		</DataTemplate>
+	</UserControl.DataTemplates>
+	
+	<Grid Height="65" ColumnDefinitions="Auto, *, Auto">
+		
+		<Path x:Name="LcarsTopLeftCorner"
+            Grid.Column="0"
+		    Data="M90.0,0.0
+                  L44.0,0.0
+                  C44.0,0.0 0,0.0 0,65.0
+                  L70.0,65.0
+                  C70.0,65.0 70.0,40.0 90.0,40.0"
+            Fill="{Binding ElementName=_this, Path=Foreground}"
+            Stretch="Fill"
+            Stroke="Transparent"
+            StrokeThickness="0"
+            UseLayoutRounding="True">
+		</Path>
+
+		<Grid x:Name="HeaderContentGrid" ColumnDefinitions="*, Auto"
+			  Grid.Column="1"
+			  VerticalAlignment="Top">
+			
+			<Rectangle x:Name="TopRectangleBackground"
+					   Grid.ColumnSpan="3"
+					   Fill="{Binding ElementName=_this, Path=Foreground}"
+					   Height="40"
+					   VerticalAlignment="Top"/>
+			
+			<ContentControl x:Name="HeaderContentControl"
+							Grid.Column="1"
+							Content="{Binding ElementName=_this, Path=HeaderContent}"
+							ContentTemplate="{Binding ElementName=_this, Path=HeaderContentTemplate}"
+							Foreground="{Binding ElementName=_this, Path=Foreground}"
+							HorizontalContentAlignment="{Binding ElementName=_this, Path=HorizontalContentAlignment}"
+							VerticalAlignment="Center"
+							VerticalContentAlignment="Center"/>
+			
+		</Grid>
+
+		<Path x:Name="RoundedHeaderCap"
+			  Grid.Column="2"
+			  Data="M0,0 
+                    A20,20 0 0 1 0,40 z"
+			  Fill="{Binding ElementName=_this, Path=Foreground}"
+			  VerticalAlignment="Top"/>		
+	</Grid>
+</UserControl>

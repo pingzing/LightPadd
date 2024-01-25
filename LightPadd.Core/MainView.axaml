@@ -2,9 +2,19 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:controls="clr-namespace:LightPadd.Core.Controls;assembly=LightPadd.Core"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="LightPadd.Core.MainView">
 	<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+		<controls:LcarsHeader x:Name="Header"
+							  Foreground="{StaticResource LcarsGold}"
+							  HeaderContent="Top Text">
+			<controls:LcarsHeader.HeaderContentTemplate>
+				<DataTemplate>
+					<Button Content="{ReflectionBinding}" />
+				</DataTemplate>
+			</controls:LcarsHeader.HeaderContentTemplate>
+		</controls:LcarsHeader>
 		<TextBlock FontFamily="{StaticResource LcarsFont}">
 			Both platforms' main view!
 		</TextBlock>
@@ -13,5 +23,8 @@
 				Click="Button_Click"
 				HorizontalAlignment="Center"
 				Margin="0 5"/>
+		<Button Content="I AM A BUTTON"
+				Background="{StaticResource LcarsGold}"
+				HorizontalAlignment="Center"/>
 	</StackPanel>
 </UserControl>
