@@ -20,9 +20,11 @@
 
 			<SolidColorBrush x:Key="LcarsCaptionTextBlockBrush" Color="{StaticResource LcarsGold}" Opacity="0.8"/>
 
-			<!--Default-style all buttons using the LcarsButton.axaml control theme-->
 			<ResourceDictionary.MergedDictionaries>
-				<MergeResourceInclude Source="/Styles/LcarsButton.axaml"/>
+			<!--Default-style all buttons using the LcarsButton.axaml control theme-->
+				<ResourceInclude Source="/Styles/LcarsButton.axaml"/>
+			<!--Controls-->
+				<ResourceInclude Source="/Controls/LcarsHeader.axaml"/>
 			</ResourceDictionary.MergedDictionaries>
 			
 		</ResourceDictionary>

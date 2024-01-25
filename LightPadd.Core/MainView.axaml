@@ -7,14 +7,9 @@
              x:Class="LightPadd.Core.MainView">
 	<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
 		<controls:LcarsHeader x:Name="Header"
-							  Foreground="{StaticResource LcarsGold}"
-							  HeaderContent="Top Text">
-			<controls:LcarsHeader.HeaderContentTemplate>
-				<DataTemplate>
-					<Button Content="{ReflectionBinding}" />
-				</DataTemplate>
-			</controls:LcarsHeader.HeaderContentTemplate>
-		</controls:LcarsHeader>
+							  Foreground="{StaticResource LcarsLavender}"
+							  Content="TOP TEXT"/>
+		
 		<TextBlock FontFamily="{StaticResource LcarsFont}">
 			Both platforms' main view!
 		</TextBlock>

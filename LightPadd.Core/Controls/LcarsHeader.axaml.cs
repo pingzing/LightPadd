@@ -1,48 +1,43 @@
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
+using Avalonia.Layout;
 using Avalonia.Markup.Xaml;
 using Avalonia.Markup.Xaml.Templates;
 using System;
 
 namespace LightPadd.Core.Controls;
 
-public partial class LcarsHeader : UserControl
+public partial class LcarsHeader : TemplatedControl
 {
-    static LcarsHeader()
-    {
-        TextProperty.Changed.AddClassHandler<LcarsHeader>(TextChanged);
-    }
-
     public LcarsHeader()
-    {
-        InitializeComponent();
+    {        
+        
     }
 
-    public static readonly StyledProperty<object> HeaderContentProperty = AvaloniaProperty.Register<LcarsHeader, object>(nameof(HeaderContent));
-    public object HeaderContent
+    public static readonly StyledProperty<IDataTemplate?> ContentTemplateProperty = 
+        ContentControl.ContentTemplateProperty.AddOwner<LcarsHeader>();
+    public IDataTemplate? ContentTemplate
     {
-        get => GetValue(HeaderContentProperty); 
-        set => SetValue(HeaderContentProperty, value);
+        get => GetValue(ContentTemplateProperty);
+        set => SetValue(ContentTemplateProperty, value);
     }
 
-    public static readonly StyledProperty<IDataTemplate> HeaderContentTemplateProperty = AvaloniaProperty.Register<LcarsHeader, IDataTemplate>(nameof(HeaderContentTemplate));
-    public IDataTemplate HeaderContentTemplate
+    public static readonly StyledProperty<object?> ContentProperty = 
+        ContentControl.ContentProperty.AddOwner<LcarsHeader>();
+    public object? Content
     {
-        get => GetValue(HeaderContentTemplateProperty);
-        set => SetValue(HeaderContentTemplateProperty, value);
+        get => GetValue(ContentProperty);
+        set => SetValue(ContentProperty, value);
     }
 
-    public static readonly StyledProperty<string> TextProperty = AvaloniaProperty.Register<LcarsHeader, string>(nameof(Text), string.Empty);
-    public string Text
+    public static readonly StyledProperty<HorizontalAlignment> HorizontalContentAlignmentProperty = 
+        ContentControl.HorizontalContentAlignmentProperty.AddOwner<LcarsHeader>();
+    public HorizontalAlignment HorizontalContentAlignment
     {
-        get => GetValue(TextProperty);
-        set => SetValue(TextProperty, value);
-    }
-    private static void TextChanged(LcarsHeader _this, AvaloniaPropertyChangedEventArgs args)
-    {
-        _this.HeaderContent = args.NewValue ?? string.Empty;
-        _this.HeaderContentTemplate = _this.DataTemplates[0];
+        get => GetValue(HorizontalContentAlignmentProperty);
+        set => SetValue(HorizontalContentAlignmentProperty, value);
     }
 
 }
