@@ -2,88 +2,88 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="using:LightPadd.Core.Controls">
 
-	<Design.PreviewWith>
-		<StackPanel Spacing="10" Width="400">
-			<controls:LcarsFooter Content="52/50" Foreground="{StaticResource LcarsGold}"/>
-		</StackPanel>
-	</Design.PreviewWith>
+    <Design.PreviewWith>
+        <StackPanel Spacing="10" Width="400">
+            <controls:LcarsFooter Content="52/50" Foreground="{StaticResource LcarsGold}"/>
+        </StackPanel>
+    </Design.PreviewWith>
 
-	<ControlTheme x:Key="{x:Type controls:LcarsFooter}" TargetType="controls:LcarsFooter">
+    <ControlTheme x:Key="{x:Type controls:LcarsFooter}" TargetType="controls:LcarsFooter">
 
-		<Setter Property="HorizontalContentAlignment" Value="Right"/>
-		<!--TODO: Expose property that allows setting text foreground separately from header color-->
-		<Setter Property="ContentTemplate">
-			<DataTemplate>
-				<!--TODO: Make visibility conditional on content being set-->
-				<Border x:Name="DefaultContentBorder" 
-						Background="Black"
-						Height="20"
-						Margin="20 0 20 0"
-						Padding="20 0 20 0"
-						IsVisible="True"
-						VerticalAlignment="Center">
-					<TextBlock x:Name="DefaultTextBlock"
-							   Classes="caption"
-							   Foreground="{TemplateBinding Foreground}"
-							   Text="{ReflectionBinding .}"
-							   TextTrimming="None"
-							   TextWrapping="NoWrap"
-							   VerticalAlignment="Center"/>
-				</Border>
-			</DataTemplate>
-		</Setter>
-		
-		<Setter Property="Template">
-			<ControlTemplate>
-				<DataValidationErrors>
-					
-					<Grid Height="45" ColumnDefinitions="Auto, *, Auto">
-						<Path x:Name="LcarsBottomLeftCorner"
-							  Grid.Column="0"
-							  Data="M90.0,0.0
-									L44.0,0.0                     
-									C44.0,0.0 0.0,0.0 0,45.0                     
-									L70.0,45.0                     
-									C70.0,45.0 70.0,20.0 90.0,20.0"
-							  Fill="{TemplateBinding Foreground}"
-							  Stretch="Fill"
-							  Stroke="Transparent"
-							  StrokeThickness="0"
-							  UseLayoutRounding="True">
-							<Path.RenderTransform>
-								<ScaleTransform ScaleY="-1"/>
-							</Path.RenderTransform>
-						</Path>
-						
-						<Rectangle x:Name="ContentBackground"
-								   Grid.Column="1"
-								   Fill="{TemplateBinding Foreground}"
-								   Height="20"
-								   HorizontalAlignment="Stretch"
-								   VerticalAlignment="Bottom"/>
-						
-						<ContentPresenter x:Name="FooterContentControl"
-										  Grid.Column="1"
-										  Content="{TemplateBinding Content}"
-										  ContentTemplate="{TemplateBinding ContentTemplate}"
-										  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-										  VerticalContentAlignment="Center"
-										  Margin="0 1 0 0"
-										  VerticalAlignment="Bottom"/>
+        <Setter Property="HorizontalContentAlignment" Value="Right"/>
+        <!--TODO: Expose property that allows setting text foreground separately from header color-->
+        <Setter Property="ContentTemplate">
+            <DataTemplate>
+                <!--TODO: Make visibility conditional on content being set-->
+                <Border x:Name="DefaultContentBorder" 
+                        Background="Black"
+                        Height="20"
+                        Margin="20 0 20 0"
+                        Padding="20 0 20 0"
+                        IsVisible="True"
+                        VerticalAlignment="Center">
+                    <TextBlock x:Name="DefaultTextBlock"
+                               Classes="caption"
+                               Foreground="{TemplateBinding Foreground}"
+                               Text="{ReflectionBinding .}"
+                               TextTrimming="None"
+                               TextWrapping="NoWrap"
+                               VerticalAlignment="Center"/>
+                </Border>
+            </DataTemplate>
+        </Setter>
+        
+        <Setter Property="Template">
+            <ControlTemplate>
+                <DataValidationErrors>
+                    
+                    <Grid Height="45" ColumnDefinitions="Auto, *, Auto">
+                        <Path x:Name="LcarsBottomLeftCorner"
+                              Grid.Column="0"
+                              Data="M90.0,0.0
+                                    L44.0,0.0                     
+                                    C44.0,0.0 0.0,0.0 0,45.0                     
+                                    L70.0,45.0                     
+                                    C70.0,45.0 70.0,20.0 90.0,20.0"
+                              Fill="{TemplateBinding Foreground}"
+                              Stretch="Fill"
+                              Stroke="Transparent"
+                              StrokeThickness="0"
+                              UseLayoutRounding="True">
+                            <Path.RenderTransform>
+                                <ScaleTransform ScaleY="-1"/>
+                            </Path.RenderTransform>
+                        </Path>
+                        
+                        <Rectangle x:Name="ContentBackground"
+                                   Grid.Column="1"
+                                   Fill="{TemplateBinding Foreground}"
+                                   Height="20"
+                                   HorizontalAlignment="Stretch"
+                                   VerticalAlignment="Bottom"/>
+                        
+                        <ContentPresenter x:Name="FooterContentControl"
+                                          Grid.Column="1"
+                                          Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalContentAlignment="Center"
+                                          Margin="0 1 0 0"
+                                          VerticalAlignment="Bottom"/>
 
-						<Path x:Name="RoundedHeaderCap"
-							  Grid.Column="2"
-							  Data="M0,0                      
-									A10,10 0 0 1 0,20 z"
-							  Fill="{TemplateBinding Foreground}"
-							  VerticalAlignment="Bottom"/>
-						
-					</Grid>				
-					
-				</DataValidationErrors>
-			</ControlTemplate>
-		</Setter>
-		
-	</ControlTheme>
-	
+                        <Path x:Name="RoundedHeaderCap"
+                              Grid.Column="2"
+                              Data="M0,0                      
+                                    A10,10 0 0 1 0,20 z"
+                              Fill="{TemplateBinding Foreground}"
+                              VerticalAlignment="Bottom"/>
+                        
+                    </Grid>				
+                    
+                </DataValidationErrors>
+            </ControlTemplate>
+        </Setter>
+        
+    </ControlTheme>
+    
 </ResourceDictionary>

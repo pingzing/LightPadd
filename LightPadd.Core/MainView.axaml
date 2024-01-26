@@ -2,57 +2,57 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-			 xmlns:controls="clr-namespace:LightPadd.Core.Controls;assembly=LightPadd.Core"
+             xmlns:controls="clr-namespace:LightPadd.Core.Controls;assembly=LightPadd.Core"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="LightPadd.Core.MainView">
-	<Grid RowDefinitions="Auto, *, Auto">
+    <Grid RowDefinitions="Auto, *, Auto">
 
-		<controls:LcarsHeader x:Name="Header"
-							  Grid.Row="0"
-							  Foreground="{StaticResource LcarsGold}">
-			<controls:LcarsHeader.ContentTemplate>
-				<DataTemplate>					
-						<Border Height="40" Margin="20 0 20 0" Padding="20 0 20 0" VerticalAlignment="Center"
-								Background="Black">
-							<StackPanel Orientation="Horizontal" Spacing="10">
-								<TextBlock Text="LIGHTS" Classes="header"/>
-								<Button Content="POWER" Background="{StaticResource LcarsRed}">
-									<Button.Flyout>
-										<MenuFlyout>
-											<MenuItem Header="Restart" Click="FlyoutRestart_Click"/>
-											<MenuItem Header="Shut down" Click="FlyoutShutodwn_Click"/>
-										</MenuFlyout>
-									</Button.Flyout>
-								</Button>
-							</StackPanel>
-						</Border>											
-				</DataTemplate>
-			</controls:LcarsHeader.ContentTemplate>
-		</controls:LcarsHeader>
-		
-		<Grid Grid.Row="1" ColumnDefinitions="Auto, *">
-			
-			<ListBox Background="{StaticResource LcarsGold}" Width="70"/>
-			
-			<StackPanel Grid.Column="1" Orientation="Vertical">
-				<TextBlock FontFamily="{StaticResource LcarsFont}">
-					Both platforms' main view!
-				</TextBlock>
-				<Slider/>
-				<Button Content="X"
-						Click="Button_Click"
-						HorizontalAlignment="Center"
-						Margin="0 5"/>
-				<Button Content="I AM A BUTTON"
-						Background="{StaticResource LcarsGold}"
-						HorizontalAlignment="Center"/>
-			</StackPanel>
-			
-		</Grid>
-		<controls:LcarsFooter x:Name="Footer" 
-							  Grid.Row="2"
-							  Foreground="{StaticResource LcarsGold}"
-							  Content="3/5"/>
-	</Grid>
-	
+        <controls:LcarsHeader x:Name="Header"
+                              Grid.Row="0"
+                              Foreground="{StaticResource LcarsGold}">
+            <controls:LcarsHeader.ContentTemplate>
+                <DataTemplate>					
+                        <Border Height="40" Margin="20 0 20 0" Padding="20 0 20 0" VerticalAlignment="Center"
+                                Background="Black">
+                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                <TextBlock Text="LIGHTS" Classes="header"/>
+                                <Button Content="POWER" Background="{StaticResource LcarsRed}">
+                                    <Button.Flyout>
+                                        <MenuFlyout>
+                                            <MenuItem Header="Restart" Click="FlyoutRestart_Click"/>
+                                            <MenuItem Header="Shut down" Click="FlyoutShutodwn_Click"/>
+                                        </MenuFlyout>
+                                    </Button.Flyout>
+                                </Button>
+                            </StackPanel>
+                        </Border>											
+                </DataTemplate>
+            </controls:LcarsHeader.ContentTemplate>
+        </controls:LcarsHeader>
+        
+        <Grid Grid.Row="1" ColumnDefinitions="Auto, *">
+            
+            <ListBox Background="{StaticResource LcarsGold}" Width="70"/>
+            
+            <StackPanel Grid.Column="1" Orientation="Vertical">
+                <TextBlock FontFamily="{StaticResource LcarsFont}">
+                    Both platforms' main view!
+                </TextBlock>
+                <Slider/>
+                <Button Content="X"
+                        Click="Button_Click"
+                        HorizontalAlignment="Center"
+                        Margin="0 5"/>
+                <Button Content="I AM A BUTTON"
+                        Background="{StaticResource LcarsGold}"
+                        HorizontalAlignment="Center"/>
+            </StackPanel>
+            
+        </Grid>
+        <controls:LcarsFooter x:Name="Footer" 
+                              Grid.Row="2"
+                              Foreground="{StaticResource LcarsGold}"
+                              Content="3/5"/>
+    </Grid>
+    
 </UserControl>

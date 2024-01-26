@@ -3,9 +3,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-		xmlns:lightPadd="clr-namespace:LightPadd.Core;assembly=LightPadd.Core"
+        xmlns:lightPadd="clr-namespace:LightPadd.Core;assembly=LightPadd.Core"
         x:Class="LightPadd.Core.MainWindow"
         Title="LightPadd.Core">
-	<!--Hosts the main view's content on desktop when debugging.-->
-	<lightPadd:MainView/>
+    <!--Hosts the main view's content on desktop when debugging.-->
+    <lightPadd:MainView/>
 </Window>
