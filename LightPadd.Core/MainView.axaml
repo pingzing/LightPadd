@@ -49,10 +49,10 @@
 			</StackPanel>
 			
 		</Grid>
-		<Rectangle x:Name="LcarsFooterPlaceholder" Grid.Row="2"
-				   Height="20"
-				   HorizontalAlignment="Stretch"
-				   Fill="{StaticResource LcarsGold}"/>
+		<controls:LcarsFooter x:Name="Footer" 
+							  Grid.Row="2"
+							  Foreground="{StaticResource LcarsGold}"
+							  Content="3/5"/>
 	</Grid>
 	
 </UserControl>

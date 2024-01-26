@@ -25,6 +25,7 @@
 				<ResourceInclude Source="/Styles/LcarsButton.axaml"/>
 			<!--Controls-->
 				<ResourceInclude Source="/Controls/LcarsHeader.axaml"/>
+				<ResourceInclude Source="/Controls/LcarsFooter.axaml"/>
 			</ResourceDictionary.MergedDictionaries>
 			
 		</ResourceDictionary>

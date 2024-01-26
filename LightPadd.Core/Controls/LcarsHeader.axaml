@@ -19,6 +19,7 @@
 					Padding="20 0 20 0"
 					IsVisible="True"
 					VerticalAlignment="Center">
+					<!--TODO: Make visibility conditional on content being set-->
 					<TextBlock x:Name="DefaultTextBlock"
 							   Classes="header"
 							   Foreground="{TemplateBinding Foreground}"
@@ -60,12 +61,12 @@
 									   VerticalAlignment="Top"/>
 
 							<ContentPresenter x:Name="HeaderContentControl"
-											Grid.Column="1"
-											Content="{TemplateBinding Content}"
-											ContentTemplate="{TemplateBinding ContentTemplate}"
-											HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-											VerticalAlignment="Center"
-											VerticalContentAlignment="Center"/>
+											  Grid.Column="1"
+											  Content="{TemplateBinding Content}"
+											  ContentTemplate="{TemplateBinding ContentTemplate}"
+											  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+											  VerticalAlignment="Center"
+											  VerticalContentAlignment="Center"/>
 
 						</Grid>
 
