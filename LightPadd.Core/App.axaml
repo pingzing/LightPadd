@@ -39,8 +39,7 @@
 
 		<!--LCARS-style for all textblocks, and a few header classes-->
 		<Style Selector="TextBlock">
-			<Setter Property="FontFamily" Value="{StaticResource LcarsThinFont}"/>
-			<Setter Property="Foreground" Value="{StaticResource LcarsGold}"/>
+			<Setter Property="FontFamily" Value="{StaticResource LcarsThinFont}"/>			
 			<Setter Property="FontSize" Value="20"/>
 		</Style>
 

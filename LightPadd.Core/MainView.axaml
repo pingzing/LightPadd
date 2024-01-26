@@ -7,7 +7,7 @@
              x:Class="LightPadd.Core.MainView">
 	<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
 		<controls:LcarsHeader x:Name="Header"
-							  Foreground="{StaticResource LcarsLavender}"
+							  Foreground="{StaticResource LcarsBlue}"
 							  Content="TOP TEXT"/>
 		
 		<TextBlock FontFamily="{StaticResource LcarsFont}">

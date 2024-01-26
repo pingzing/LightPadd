@@ -10,8 +10,7 @@
 	
 	<ControlTheme x:Key="{x:Type controls:LcarsHeader}" TargetType="controls:LcarsHeader">
 
-		<!--TODO: Fix this so that it honors Foreground correctly. May have to move it to a separate
-		ControlTheme??-->
+		<!--TODO: Expose property that allows setting text foreground separately from header color-->
 		<Setter Property="ContentTemplate">
 			<DataTemplate>
 				<Border Background="Black"
