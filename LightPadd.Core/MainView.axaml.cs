@@ -19,8 +19,6 @@ public partial class MainView : UserControl
         Environment.Exit(0);
     }
 
-    
-
     private void FlyoutRestart_Click(object? sender, RoutedEventArgs e)
     {
         if (OperatingSystem.IsWindows())
@@ -30,11 +28,7 @@ public partial class MainView : UserControl
 
         if (OperatingSystem.IsLinux())
         {
-            Process.Start(new ProcessStartInfo()
-            {
-                FileName = "sudo",
-                Arguments = "reboot"
-            });
+            Process.Start(new ProcessStartInfo() { FileName = "sudo", Arguments = "reboot" });
         }
     }
 
@@ -47,11 +41,7 @@ public partial class MainView : UserControl
 
         if (OperatingSystem.IsLinux())
         {
-            Process.Start(new ProcessStartInfo()
-            {
-                FileName = "sudo",
-                Arguments = "shutdown now"
-            });
+            Process.Start(new ProcessStartInfo() { FileName = "sudo", Arguments = "shutdown now" });
         }
     }
 }
