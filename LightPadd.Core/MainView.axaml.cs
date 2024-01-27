@@ -1,7 +1,9 @@
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 
@@ -43,5 +45,15 @@ public partial class MainView : UserControl
         {
             Process.Start(new ProcessStartInfo() { FileName = "sudo", Arguments = "shutdown now" });
         }
+    }
+
+    private void PowerFlyout_Opening(object? sender, EventArgs e)
+    {
+        
+    }
+
+    private void PowerFlyout_Closing(object? sender, CancelEventArgs e)
+    {
+        e.Cancel = true;
     }
 }
