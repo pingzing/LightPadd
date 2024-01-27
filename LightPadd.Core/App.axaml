@@ -1,5 +1,6 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
              x:Class="LightPadd.Core.App"
              RequestedThemeVariant="Dark">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
@@ -19,10 +20,12 @@
             <FontFamily x:Key="LcarsThinFont">avares://LightPadd.Core/Fonts/LcarsThinFont.ttf#Swiss911 UCm BT</FontFamily>
 
             <SolidColorBrush x:Key="LcarsCaptionTextBlockBrush" Color="{StaticResource LcarsGold}" Opacity="0.8"/>
+            <SolidColorBrush x:Key="LcarsRedBrush" Color="{StaticResource LcarsRed}" />
 
             <ResourceDictionary.MergedDictionaries>
             <!--Default-style all buttons using the LcarsButton.axaml control theme-->
                 <ResourceInclude Source="/Styles/LcarsButton.axaml"/>
+                <ResourceInclude Source="/Styles/LcarsFlyout.axaml"/>
             <!--Controls-->
                 <ResourceInclude Source="/Controls/LcarsHeader.axaml"/>
                 <ResourceInclude Source="/Controls/LcarsFooter.axaml"/>
@@ -69,6 +72,32 @@
             <Setter Property="FontFamily" Value="{StaticResource LcarsFont}"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
             <Setter Property="Foreground" Value="{StaticResource LcarsCaptionTextBlockBrush}"/>
-        </Style>						
+        </Style>
+        
+        <!--LCARS-style side buttons-->
+        <Style Selector="Button.side">
+            <Setter Property="CornerRadius" Value="0"/>
+            <Setter Property="Content" Value="Default"/>
+            <Setter Property="Foreground" Value="Black"/>            
+            <Setter Property="FontFamily" Value="{StaticResource LcarsFont}"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="Width" Value="70"/>
+            <Setter Property="ContentTemplate">
+                <DataTemplate DataType="{x:Type system:String}">
+                    <TextBlock Text="{Binding .}" 
+                               FontFamily="{Binding $parent[Button].FontFamily}"
+                               FontSize="{Binding $parent[Button].FontSize}"
+                               TextAlignment="End"
+                               TextWrapping="WrapWithOverflow"
+                               VerticalAlignment="{Binding $parent[Button].VerticalAlignment}"/>
+                </DataTemplate>
+            </Setter>
+        </Style>
+
+        <Style Selector="FlyoutPresenter.powerPanel">
+            <Setter Property="Background" Value="Black"/>
+        </Style>
+                
     </Application.Styles>
 </Application>

@@ -14,14 +14,22 @@
                 <DataTemplate>					
                         <Border Height="40" Margin="20 0 20 0" Padding="20 0 20 0" VerticalAlignment="Center"
                                 Background="Black">
-                            <StackPanel Orientation="Horizontal" Spacing="10">
+                            <StackPanel Orientation="Horizontal" Spacing="20">
                                 <TextBlock Text="LIGHTS" Classes="header"/>
                                 <Button Content="POWER" Background="{StaticResource LcarsRed}">
                                     <Button.Flyout>
-                                        <MenuFlyout>
-                                            <MenuItem Header="Restart" Click="FlyoutRestart_Click"/>
-                                            <MenuItem Header="Shut down" Click="FlyoutShutodwn_Click"/>
-                                        </MenuFlyout>
+                                        <Flyout FlyoutPresenterClasses="powerPanel">
+                                            <StackPanel Spacing="10">
+                                                <Button Content="RESTART" 
+                                                        Background="{StaticResource LcarsLavender}"
+                                                        Click="FlyoutRestart_Click"
+                                                        HorizontalAlignment="Center"/>
+                                                <Button Content="SHUT DOWN"
+                                                        Background="{StaticResource LcarsRed}"
+                                                        Click="FlyoutShutodwn_Click" 
+                                                        HorizontalAlignment="Center"/>
+                                            </StackPanel>
+                                        </Flyout>
                                     </Button.Flyout>
                                 </Button>
                             </StackPanel>
@@ -31,10 +39,26 @@
         </controls:LcarsHeader>
         
         <Grid Grid.Row="1" ColumnDefinitions="Auto, *">
+
+            <StackPanel Background="{StaticResource LcarsGold}" Width="70" Margin="0, 0, 0, 0">
+                <Border Background="Black" HorizontalAlignment="Center" BorderThickness="0">
+                    <Button Classes="side"
+                            Content="BUTTON 1"
+                            Background="{StaticResource LcarsBlue}"
+                            Height="64"
+                            Margin="0 5 0 0">                        
+                    </Button>
+                </Border>
+                <Border Background="Black" HorizontalAlignment="Center" BorderThickness="0" Padding="0 0">
+                    <Button Content="BUTTON 2"
+                            Classes="side"
+                            Background="{StaticResource LcarsBlue}"                            
+                            Height="64"
+                            Margin="0 5 0 5"/>
+                </Border>
+            </StackPanel>
             
-            <ListBox Background="{StaticResource LcarsGold}" Width="70"/>
-            
-            <StackPanel Grid.Column="1" Orientation="Vertical">
+            <StackPanel Grid.Column="1" Orientation="Vertical" Margin="10">
                 <TextBlock FontFamily="{StaticResource LcarsFont}">
                     Both platforms' main view!
                 </TextBlock>

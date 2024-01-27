@@ -1,0 +1,149 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Design.PreviewWith>
+        <StackPanel>
+            <ContentControl>
+                <FlyoutPresenter MaxHeight="500">
+                    <StackPanel>
+                        <Button Content="BUTTON 1" Background="Green"/>
+                        <Button Content="BUTTON 2" Background="Blue"/>
+                        <Button Content="BUTTON 3" Background="Orange"/>
+                        <Button Content="BUTTON 4" Background="AntiqueWhite"/>
+                        <Button Content="BUTTON 5" Background="Bisque"/>
+                        <Button Content="BUTTON 6" Background="CornflowerBlue"/>
+                        <Button Content="BUTTON 7" Background="DarkTurquoise"/>
+                        <Button Content="BUTTON 8" Background="Red"/>
+                    </StackPanel>
+                </FlyoutPresenter>
+            </ContentControl>
+        </StackPanel>
+    </Design.PreviewWith>
+
+    <ControlTheme x:Key="{x:Type FlyoutPresenter}" TargetType="FlyoutPresenter">
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        <Setter Property="Background" Value="{DynamicResource FlyoutPresenterBackground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource LcarsGold}" />
+        <Setter Property="Padding" Value="{DynamicResource FlyoutPresenterThemePadding}" />
+        <Setter Property="MaxWidth" Value="{DynamicResource FlyoutThemeMaxWidth}" />
+        <Setter Property="MinHeight" Value="{DynamicResource FlyoutThemeMinHeight}" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="CornerRadius" Value="{DynamicResource OverlayCornerRadius}" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid Name="LayoutRoot"
+                      RowDefinitions="Auto, *, Auto"
+                      ColumnDefinitions="Auto, *, Auto"
+                      Background="Transparent">
+                    <!--Separate background element, so that we have something that goes behind every element-->
+                    <Border x:Name="BackgroundElement"
+                            Grid.RowSpan="3"
+                            Grid.ColumnSpan="3"
+                            CornerRadius="65"
+                            Background="{TemplateBinding Background}"/>
+                    <Path x:Name="LcarsTopLeftCorner"
+                                          Grid.Row="0" Grid.Column="0"
+                                          Data="M80.0,0.0
+                                                L44.0,0.0
+                                                C44.0,0.0 0,0.0 0,55.0
+                                                L60.0,55.0
+                                                C60.0,55.0 60.0,20.0 80.0,20.0"
+                                          Fill="{TemplateBinding BorderBrush}"
+                                          StrokeThickness="0"/>
+                    <Rectangle x:Name="LcarsTopRectangle"
+                               Grid.Row="0" Grid.Column="1"
+                               Fill="{TemplateBinding BorderBrush}"
+                               HorizontalAlignment="Stretch"
+                               Height="20"
+                               VerticalAlignment="Top"/>
+                    <Path x:Name="LcarsTopRightCorner"
+                                          Grid.Row="0" Grid.Column="2"
+                                          Data="M80.0,0.0
+                                                L44.0,0.0
+                                                C44.0,0.0 0,0.0 0,55.0
+                                                L60.0,55.0
+                                                C60.0,55.0 60.0,20.0 80.0,20.0"
+                                          Fill="{TemplateBinding BorderBrush}"
+                                          StrokeThickness="0">
+                        <Path.RenderTransform>
+                            <ScaleTransform ScaleX="-1"/>
+                        </Path.RenderTransform>
+                    </Path>
+                    <Grid Grid.Row="1" Grid.Column="1"
+                          Margin="0 -20 0 -20">
+                        <!--^ Negative margins up there to account for the fact that the top and bottom rows
+                        are super tall becaue of the Lcars Corners-->
+                        <ScrollViewer HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                                      Theme="{StaticResource FluentMenuScrollViewer}"
+                                      VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
+                            <ContentPresenter Content="{TemplateBinding Content}"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              HorizontalContentAlignment="Stretch"
+                                              VerticalContentAlignment="Stretch" />
+                        </ScrollViewer>
+                    </Grid>
+                    <Rectangle x:Name="LcarsLeftBorder"
+                               Grid.Row="1" Grid.Column="0"
+                               Fill="{TemplateBinding BorderBrush}"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Stretch"
+                               Width="60"/>
+                    <Rectangle x:Name="LcarsRightBorder"
+                               Grid.Row="1" Grid.Column="2"
+                               Fill="{TemplateBinding BorderBrush}"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Stretch"
+                               Width="60"/>
+                    <Path x:Name="LcarsBottomLeftCorner"
+                          Grid.Row="3" Grid.Column="0"
+                          Data="M80.0,0.0
+                                L44.0,0.0
+                                C44.0,0.0 0,0.0 0,55.0
+                                L60.0,55.0
+                                C60.0,55.0 60.0,20.0 80.0,20.0"
+                          Fill="{TemplateBinding BorderBrush}"
+                          StrokeThickness="0">
+                        <Path.RenderTransform>
+                            <ScaleTransform ScaleY="-1"/>
+                        </Path.RenderTransform>
+                    </Path>
+                    <Rectangle x:Name="LcarsBottomRectangle"
+                               Grid.Row="3"
+                               Grid.Column="1"
+                               Fill="{TemplateBinding BorderBrush}"
+                               HorizontalAlignment="Stretch"
+                               Height="20"
+                               VerticalAlignment="Bottom"/>
+                    <Path x:Name="LcarsBottomRightCorner"
+                          Grid.Row="3"
+                          Grid.Column="2"
+                          Data="M80.0,0.0
+                                L44.0,0.0
+                                C44.0,0.0 0,0.0 0,55.0
+                                L60.0,55.0
+                                C60.0,55.0 60.0,20.0 80.0,20.0"
+                          Fill="{TemplateBinding BorderBrush}"
+                          StrokeThickness="0">
+                        <Path.RenderTransform>
+                            <ScaleTransform ScaleY="-1" ScaleX="-1"/>
+                        </Path.RenderTransform>
+                    </Path>
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+    
+    <ControlTheme x:Key="HorizontalMenuFlyoutPresenter" TargetType="MenuFlyoutPresenter"  BasedOn="{StaticResource {x:Type MenuFlyoutPresenter}}">
+        <Setter Property="MinWidth" Value="{DynamicResource HorizontalMenuFlyoutThemeMinWidth}" />
+        <Setter Property="ItemsPanel">
+            <ItemsPanelTemplate>
+                <StackPanel Orientation="Horizontal"/>
+            </ItemsPanelTemplate>
+        </Setter>
+    </ControlTheme>
+</ResourceDictionary>

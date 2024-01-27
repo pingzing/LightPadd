@@ -7,6 +7,7 @@
                 <Button Content="Click Me!" />
                 <Button Background="{StaticResource LcarsBlue}" Content="Click Me!" />
                 <Button Classes="accent" Content="Click Me!" />
+                <Button Content="Click me!" CornerRadius="0"/>
             </StackPanel>
         </Border>
     </Design.PreviewWith>
@@ -14,10 +15,10 @@
     <!--LCARS button theme-->
     <ControlTheme x:Key="{x:Type Button}" TargetType="Button">
         <Setter Property="Background" Value="{DynamicResource ButtonBackground}" />
-        <Setter Property="Foreground" Value="{DynamicResource ButtonForeground}" />
+        <Setter Property="Foreground" Value="Black" />
         <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrush}" />
         <Setter Property="BorderThickness" Value="{DynamicResource ButtonBorderThemeThickness}" />
-        <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
+        <Setter Property="CornerRadius" Value="15" />
         <Setter Property="FontFamily" Value="{StaticResource LcarsThinFont}"/>
         <Setter Property="FontSize" Value="20"/>
         <Setter Property="Padding" Value="{DynamicResource ButtonPadding}" />
@@ -29,12 +30,12 @@
             <ControlTemplate>
                 <!--Added wrapping border so that hover and click background brushes will just tint
                 the user-given background, rather than changing it entirely-->
-                <Border Background="{TemplateBinding Background}" BorderThickness="0" CornerRadius="15">
+                <Border Background="{TemplateBinding Background}" BorderThickness="0" CornerRadius="{TemplateBinding CornerRadius}">
                     <ContentPresenter x:Name="PART_ContentPresenter"
                                       Background="Transparent"
                                       BorderBrush="{TemplateBinding BorderBrush}"
                                       BorderThickness="{TemplateBinding BorderThickness}"
-                                      CornerRadius="15"
+                                      CornerRadius="{TemplateBinding CornerRadius}"
                                       Content="{TemplateBinding Content}"
                                       ContentTemplate="{TemplateBinding ContentTemplate}"
                                       FontFamily="{TemplateBinding FontFamily}"
