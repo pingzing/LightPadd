@@ -42,7 +42,11 @@
         <Grid Grid.Row="1" ColumnDefinitions="Auto, *">
 
             <StackPanel Background="{StaticResource LcarsGold}" Width="70" Margin="0, 0, 0, 0">
-                <Border Background="Black" HorizontalAlignment="Center" BorderThickness="0">
+                <!--Example of side buttons
+                TODO: Decide whether or not to use these
+                Maybe have room selection here?-->
+                
+                <!--<Border Background="Black" HorizontalAlignment="Center" BorderThickness="0">
                     <Button Classes="side"
                             Content="BUTTON 1"
                             Background="{StaticResource LcarsBlue}"
@@ -56,19 +60,46 @@
                             Background="{StaticResource LcarsBlue}"                            
                             Height="64"
                             Margin="0 5 0 5"/>
-                </Border>
+                </Border>-->
             </StackPanel>
 
-            <StackPanel Grid.Column="1" Orientation="Vertical" Margin="10" Spacing="15">
-                <TextBlock Text="LIVING ROOM" Classes="title" Foreground="{StaticResource LcarsGold}"/>
-                <WrapPanel  Orientation="Horizontal">
-                    <Button x:Name="SquigglyLightButton"
+            <Grid Grid.Column="1" Margin="10"
+                  RowDefinitions="Auto, *, Auto">
+                <TextBlock Grid.Row="0" Text="LIVING ROOM" Classes="title" Foreground="{StaticResource LcarsGold}"
+                           Margin="0 0 0 10"/>
+                <WrapPanel Grid.Row="1" Orientation="Horizontal">
+                    <WrapPanel.Styles>
+                        <Style Selector="Button">
+                            <Setter Property="Margin" Value="10"/>
+                            <Setter Property="FontSize" Value="30"/>
+                        </Style>
+                    </WrapPanel.Styles>
+                    <Button x:Name="SquigglyLightButton"                            
                             Background="{StaticResource LcarsPeach}"
                             Content="SQUIGGLY LIGHT"
                             FontSize="30"
+                            Margin="0"
                             Click="SquigglyLightButton_Click"/>
                 </WrapPanel>
-            </StackPanel>
+                <StackPanel Grid.Row="2" Orientation="Vertical">
+                    <TextBlock Text="SCREEN BRIGHTNESS" Classes="title" Foreground="{StaticResource LcarsBlue}"/>
+                    <Slider x:Name="BrightnessSlider" 
+                            Minimum="0" Maximum="255" 
+                            SmallChange="1"
+                            TickFrequency="1"
+                            IsSnapToTickEnabled="True"
+                            Value="200" 
+                            ValueChanged="BrightnessSlider_ValueChanged">
+                        <Slider.Styles>
+                            <FluentTheme>
+                                <FluentTheme.Palettes>
+                                    <ColorPaletteResources x:Key="Dark" Accent="{StaticResource LcarsBlue}"/>
+                                </FluentTheme.Palettes>
+                            </FluentTheme>
+                        </Slider.Styles>
+                    </Slider>
+                </StackPanel>
+            </Grid>
             
         </Grid>
         <controls:LcarsFooter x:Name="Footer" 

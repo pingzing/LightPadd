@@ -11,6 +11,7 @@
 	<PublishTrimmed>true</PublishTrimmed>
 	<PublishSingleFile>true</PublishSingleFile>
 	<StripSymbols>true</StripSymbols>
+    <WarningsAsErrors>CS8618</WarningsAsErrors>
   </PropertyGroup>
 
   <ItemGroup>

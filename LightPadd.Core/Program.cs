@@ -13,29 +13,39 @@ namespace LightPadd.Core
         [STAThread]
         public static int Main(string[] args)
         {
-            var builder = BuildAvaloniaApp();
-            if (args.Contains("--drm"))
+            try
             {
-                SilenceConsole();
-                return builder.StartLinuxDrm(args, null, 1, null);
-            }
+                var builder = BuildAvaloniaApp();
+                if (args.Contains("--drm"))
+                {
+                    SilenceConsole();
+                    return builder.StartLinuxDrm(args, null, 1, null);
+                }
 
-            return builder.StartWithClassicDesktopLifetime(args);
+                return builder.StartWithClassicDesktopLifetime(args);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(
+                    $"EXCEPTION: '{ex.Message}':\n {ex.StackTrace}.\n Tostring: {ex}"
+                );
+                return 1;
+            }
         }
 
         private static void SilenceConsole()
         {
-            new Thread(() =>
-            {
-                Console.CursorVisible = false;
-                while (true)
-                {
-                    Console.ReadKey(true);
-                }
-            })
-            {
-                IsBackground = true
-            }.Start();
+            //new Thread(() =>
+            //{
+            //    Console.CursorVisible = false;
+            //    while (true)
+            //    {
+            //        Console.ReadKey(true);
+            //    }
+            //})
+            //{
+            //    IsBackground = true
+            //}.Start();
         }
 
         // Avalonia configuration, don't remove; also used by visual designer.
