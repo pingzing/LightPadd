@@ -1,19 +1,35 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using LightPadd.Core.Services;
 
 namespace LightPadd.Core;
 
 public partial class MainView : UserControl
 {
+    private readonly HubitatClientService _hubitatClient;
+    private bool _isSquigglyLightOn = false;
+
     public MainView()
     {
+        _hubitatClient = new HubitatClientService();
         InitializeComponent();
+    }
+
+    private async void MainView_Loaded(object? sender, RoutedEventArgs e)
+    {
+        var response = await _hubitatClient.GetDevicesDetailed("1");
+        var switchObject = response["attributes"]
+            .AsArray()
+            .FirstOrDefault(x => x["name"].GetValue<string>() == "switch");
+        bool isOn = switchObject["currentValue"].GetValue<string>() == "on";
+        _isSquigglyLightOn = isOn;
     }
 
     public void Button_Click(object? sender, RoutedEventArgs e)
@@ -47,13 +63,25 @@ public partial class MainView : UserControl
         }
     }
 
-    private void PowerFlyout_Opening(object? sender, EventArgs e)
+    private async void SquigglyLightButton_Click(object? sender, RoutedEventArgs e)
     {
-        
-    }
-
-    private void PowerFlyout_Closing(object? sender, CancelEventArgs e)
-    {
-        e.Cancel = true;
+        if (_isSquigglyLightOn)
+        {
+            var response = await _hubitatClient.SendCommand("1", "off");
+            var switchObject = response["attributes"]
+                .AsArray()
+                .FirstOrDefault(x => x["name"].GetValue<string>() == "switch");
+            bool isOn = switchObject["currentValue"].GetValue<string>() == "on";
+            _isSquigglyLightOn = isOn;
+        }
+        else
+        {
+            var response = await _hubitatClient.SendCommand("1", "on");
+            var switchObject = response["attributes"]
+                .AsArray()
+                .FirstOrDefault(x => x["name"].GetValue<string>() == "switch");
+            bool isOn = switchObject["currentValue"].GetValue<string>() == "on";
+            _isSquigglyLightOn = isOn;
+        }
     }
 }

@@ -20,6 +20,8 @@
     <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.7" />
     <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.7" />
+    <PackageReference Include="GenHTTP.Core" Version="8.1.0" />
+    <PackageReference Include="GenHTTP.Modules.Functional" Version="8.1.0" />
   </ItemGroup>
 
 	<ItemGroup>
