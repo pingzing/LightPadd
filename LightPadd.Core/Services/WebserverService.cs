@@ -12,12 +12,9 @@ namespace LightPadd.Core.Services
     public class WebserverService
     {
         private readonly IServerHost _host;
-        private readonly DeviceStateService _stateService;
 
-        public WebserverService(DeviceStateService stateService)
+        public WebserverService()
         {
-            _stateService = stateService;
-
             var handler = Inline.Create().Post("/socketStatus", OnSocketStatusUpdate);
 
             _host = Host.Create();

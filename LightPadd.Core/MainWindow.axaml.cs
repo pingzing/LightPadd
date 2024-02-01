@@ -1,12 +1,13 @@
 using Avalonia.Controls;
+using LightPadd.Core.ViewModels;
 
-namespace LightPadd.Core
+namespace LightPadd.Core;
+
+public partial class MainWindow : Window
 {
-    public partial class MainWindow : Window
+    public MainWindow()
     {
-        public MainWindow()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+        MainView.DataContext = VMResolver.Resolve<MainViewViewModel>();
     }
 }

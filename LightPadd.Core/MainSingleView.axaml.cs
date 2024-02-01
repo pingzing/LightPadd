@@ -1,6 +1,5 @@
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
+using LightPadd.Core.ViewModels;
 
 namespace LightPadd.Core;
 
@@ -9,5 +8,6 @@ public partial class MainSingleView : UserControl
     public MainSingleView()
     {
         InitializeComponent();
+        MainView.DataContext = VMResolver.Resolve<MainViewViewModel>();
     }
 }

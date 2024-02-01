@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using Avalonia;
@@ -26,26 +27,28 @@ namespace LightPadd.Core
             }
             catch (Exception ex)
             {
-                Console.WriteLine(
-                    $"EXCEPTION: '{ex.Message}':\n {ex.StackTrace}.\n Tostring: {ex}"
-                );
+                Console.WriteLine($"EXCEPTION: '{ex}");
+                if (Debugger.IsAttached)
+                {
+                    Debugger.Break();
+                }
                 return 1;
             }
         }
 
         private static void SilenceConsole()
         {
-            //new Thread(() =>
-            //{
-            //    Console.CursorVisible = false;
-            //    while (true)
-            //    {
-            //        Console.ReadKey(true);
-            //    }
-            //})
-            //{
-            //    IsBackground = true
-            //}.Start();
+            new Thread(() =>
+            {
+                Console.CursorVisible = false;
+                while (true)
+                {
+                    Console.ReadKey(true);
+                }
+            })
+            {
+                IsBackground = true
+            }.Start();
         }
 
         // Avalonia configuration, don't remove; also used by visual designer.

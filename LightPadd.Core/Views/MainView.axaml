@@ -1,0 +1,106 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             
+             xmlns:controls="using:LightPadd.Core.Controls"
+             xmlns:views="using:LightPadd.Core.Views"
+             xmlns:vm="using:LightPadd.Core.ViewModels"
+             
+             x:Class="LightPadd.Core.Views.MainView"
+             x:DataType="vm:MainViewViewModel">
+
+    <Design.DataContext>
+        <vm:MainViewViewModel/>
+    </Design.DataContext>
+    
+    <Grid RowDefinitions="Auto, *, Auto">
+
+        <controls:LcarsHeader x:Name="Header"
+                              Grid.Row="0"
+                              Foreground="{StaticResource LcarsGold}">
+            <controls:LcarsHeader.ContentTemplate>
+                <DataTemplate>					
+                        <Border Height="40" Margin="20 0 20 0" Padding="20 0 20 0" VerticalAlignment="Center"
+                                Background="Black">
+                            <StackPanel Orientation="Horizontal" Spacing="20">
+                                <TextBlock Text="LIGHTS" Classes="header"/>
+                                <Button Content="POWER" Background="{StaticResource LcarsRed}">
+                                    <Button.Flyout>
+                                        <Flyout FlyoutPresenterClasses="blackBg">
+                                            <StackPanel Spacing="10">
+                                                <Button Content="RESTART" 
+                                                        Background="{StaticResource LcarsLavender}"
+                                                        Click="FlyoutRestart_Click"
+                                                        HorizontalAlignment="Center"/>
+                                                <Button Content="SHUT DOWN"
+                                                        Background="{StaticResource LcarsRed}"
+                                                        Click="FlyoutShutodwn_Click" 
+                                                        HorizontalAlignment="Center"/>
+                                            </StackPanel>
+                                        </Flyout>
+                                    </Button.Flyout>
+                                </Button>
+                            </StackPanel>
+                        </Border>											
+                </DataTemplate>
+            </controls:LcarsHeader.ContentTemplate>
+        </controls:LcarsHeader>
+        
+        <Grid Grid.Row="1" ColumnDefinitions="Auto, *">
+
+            <Grid Background="{StaticResource LcarsGold}" Width="70">                
+            </Grid>
+            <StackPanel VerticalAlignment="Bottom">
+                
+                <Border Background="Black" HorizontalAlignment="Center" BorderThickness="0">
+                    
+                    <Button Classes="side"
+                            Background="{StaticResource LcarsBlue}"
+                            Content="SETTINGS"
+                            FontSize="19"
+                            Height="128"
+                            Margin="0 5 0 5">
+                        <Button.Flyout>
+                            <Flyout FlyoutPresenterClasses="blackBg" Placement="Right">
+                                <StackPanel>
+                                    <TextBlock Classes="title" 
+                                               Foreground="{StaticResource LcarsBlue}" 
+                                               Text="SCREEN BRIGHTNESS"/>
+                                    <Slider Minimum="0" Maximum="255"
+                                            Value="{Binding Brightness}"
+                                            TickFrequency="1" IsSnapToTickEnabled="True" 
+                                            Width="200">
+                                        <Slider.Styles>
+                                            <FluentTheme>
+                                                <FluentTheme.Palettes>
+                                                    <ColorPaletteResources x:Key="Dark" Accent="{StaticResource LcarsBlue}"/>
+                                                </FluentTheme.Palettes>
+                                            </FluentTheme>
+                                        </Slider.Styles>
+                                    </Slider>
+                                </StackPanel>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                </Border>
+                <!--<Border Background="Black" HorizontalAlignment="Center" BorderThickness="0" Padding="0 0">
+                    <Button Content="BUTTON 2"
+                            Classes="side"
+                            Background="{StaticResource LcarsBlue}"                            
+                            Height="64"
+                            Margin="0 5 0 5"/>
+                </Border>-->
+            </StackPanel>            
+            
+            <ContentControl Grid.Column="1" Content="{Binding LivingRoomVM}"/>
+            
+        </Grid>
+        <controls:LcarsFooter x:Name="Footer"
+                              Grid.Row="2"
+                              Foreground="{StaticResource LcarsGold}">            
+        </controls:LcarsFooter>
+    </Grid>
+    
+</UserControl>

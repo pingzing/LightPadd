@@ -11,15 +11,14 @@ using LightPadd.Core.Models.Hubitat;
 
 namespace LightPadd.Core.Services;
 
-public class HubitatClientService
+public class HubitatClient
 {
-    private readonly Uri _baseUrl = new("http://192.168.0.44/apps/api/3/devices/");
     private readonly string _accessToken = "24220d64-8ef2-4b44-a815-a41e64c23c49";
     private readonly HttpClient _client;
 
-    public HubitatClientService()
+    public HubitatClient(HttpClient httpClient)
     {
-        _client = new HttpClient() { BaseAddress = _baseUrl };
+        _client = httpClient;
     }
 
     public async Task GetDevicesBasic()

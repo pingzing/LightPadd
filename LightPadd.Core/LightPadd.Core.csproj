@@ -10,7 +10,6 @@
 	<PublishReadyToRun>true</PublishReadyToRun>
 	<PublishTrimmed>true</PublishTrimmed>
 	<PublishSingleFile>true</PublishSingleFile>
-	<StripSymbols>true</StripSymbols>
     <WarningsAsErrors>CS8618</WarningsAsErrors>
   </PropertyGroup>
 
@@ -21,8 +20,11 @@
     <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.7" />
     <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.7" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
     <PackageReference Include="GenHTTP.Core" Version="8.1.0" />
     <PackageReference Include="GenHTTP.Modules.Functional" Version="8.1.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
   </ItemGroup>
 
 	<ItemGroup>
@@ -31,12 +33,8 @@
 	</ItemGroup>
 
   <ItemGroup>
-    <Compile Update="MainView.axaml.cs">
-      <DependentUpon>MainView.axaml</DependentUpon>
+    <Compile Update="Views\MainView.axaml.cs">
+      <DependentUpon>Views\MainView.axaml</DependentUpon>
     </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="LcarsButton.axaml" />
   </ItemGroup>
 </Project>

@@ -1,0 +1,39 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             
+             xmlns:controls="using:LightPadd.Core.Controls"
+             xmlns:vm="using:LightPadd.Core.ViewModels"
+             
+             x:Class="LightPadd.Core.Views.LivingRoomView"
+             x:DataType="vm:LivingRoomViewModel"
+             
+             Loaded="LivingRoom_Loaded">
+
+    <Design.DataContext>
+        <vm:LivingRoomViewModel/>
+    </Design.DataContext>
+
+    <Grid Margin="10"
+          RowDefinitions="Auto, *">
+        <TextBlock Grid.Row="0" Text="LIVING ROOM" Classes="title" Foreground="{StaticResource LcarsGold}"
+                   Margin="0 0 0 10"/>
+        <WrapPanel Grid.Row="1" Orientation="Horizontal">
+            <WrapPanel.Styles>
+                <Style Selector="Button">
+                    <Setter Property="Margin" Value="10"/>
+                    <Setter Property="FontSize" Value="30"/>
+                </Style>
+            </WrapPanel.Styles>
+            <!--TODO: Make this a command-->
+            <ToggleButton x:Name="SquigglyLightButton"
+                          Background="{StaticResource LcarsPeach}"
+                          Content="SQUIGGLY LIGHT"
+                          IsChecked="{Binding IsSquigglyLightOn, Mode=TwoWay}"
+                          FontSize="30"/>
+        </WrapPanel>
+    </Grid>
+    
+</UserControl>

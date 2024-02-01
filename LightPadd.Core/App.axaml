@@ -1,9 +1,14 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:local="using:LightPadd.Core"
              x:Class="LightPadd.Core.App"
              RequestedThemeVariant="Dark">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+
+    <Application.DataTemplates>
+        <local:ViewLocator/>
+    </Application.DataTemplates>
 
     <Application.Resources>
         <ResourceDictionary>
@@ -20,12 +25,12 @@
             <FontFamily x:Key="LcarsThinFont">avares://LightPadd.Core/Fonts/LcarsThinFont.ttf#Swiss911 UCm BT</FontFamily>
 
             <SolidColorBrush x:Key="LcarsCaptionTextBlockBrush" Color="{StaticResource LcarsGold}" Opacity="0.8"/>
-            <SolidColorBrush x:Key="LcarsRedBrush" Color="{StaticResource LcarsRed}" />
 
             <ResourceDictionary.MergedDictionaries>
             <!--Default-style all buttons using the LcarsButton.axaml control theme-->
-                <ResourceInclude Source="/Styles/LcarsButton.axaml"/>
                 <ResourceInclude Source="/Styles/LcarsFlyout.axaml"/>
+                <ResourceInclude Source="/Styles/LcarsButton.axaml"/>
+                <ResourceInclude Source="/Styles/LcarsToggleButton.axaml"/>
             <!--Controls-->
                 <ResourceInclude Source="/Controls/LcarsHeader.axaml"/>
                 <ResourceInclude Source="/Controls/LcarsFooter.axaml"/>
@@ -95,7 +100,7 @@
             </Setter>
         </Style>
 
-        <Style Selector="FlyoutPresenter.powerPanel">
+        <Style Selector="FlyoutPresenter.blackBg">
             <Setter Property="Background" Value="Black"/>
         </Style>
                 
