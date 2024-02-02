@@ -7,8 +7,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
 	<OptimizationPreference>Speed</OptimizationPreference>
-	<PublishReadyToRun>true</PublishReadyToRun>
-	<PublishTrimmed>true</PublishTrimmed>
+	<PublishReadyToRun>true</PublishReadyToRun>	
 	<PublishSingleFile>true</PublishSingleFile>
     <WarningsAsErrors>CS8618</WarningsAsErrors>
   </PropertyGroup>
@@ -23,8 +22,10 @@
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
     <PackageReference Include="GenHTTP.Core" Version="8.1.0" />
     <PackageReference Include="GenHTTP.Modules.Functional" Version="8.1.0" />
+    <PackageReference Include="Macross.Json.Extensions" Version="3.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
+    <PackageReference Include="PolyJson" Version="1.4.0" />
   </ItemGroup>
 
 	<ItemGroup>

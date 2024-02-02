@@ -99,7 +99,8 @@
         </Grid>
         <controls:LcarsFooter x:Name="Footer"
                               Grid.Row="2"
-                              Foreground="{StaticResource LcarsGold}">            
+                              Foreground="{StaticResource LcarsGold}"
+                              Content="{Binding LivingRoomVM.FooterText}">            
         </controls:LcarsFooter>
     </Grid>
     

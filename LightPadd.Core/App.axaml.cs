@@ -12,10 +12,12 @@ namespace LightPadd.Core
     public partial class App : Application
     {
         public IServiceProvider Services { get; private set; } = null!;
+        public WebserverService _serverService { get; private set; } = null!;
 
         public override void Initialize()
         {
             Services = ConfigureServices();
+            _serverService = Services.GetRequiredService<WebserverService>();
 
             AvaloniaXamlLoader.Load(this);
         }
@@ -43,10 +45,9 @@ namespace LightPadd.Core
 
             // Services
             services.AddSingleton<ScreenBrightnessService>();
-            services.AddHttpClient<HubitatClient>(x =>
-            {
-                x.BaseAddress = new Uri("http://192.168.0.44/apps/api/3/devices/");
-            });
+            services.AddHttpClient<LivingRoomClient>(
+                (x) => x.BaseAddress = new Uri("http://192.168.0.44/apps/api/3/devices/")
+            );
             services.AddSingleton<WebserverService>();
 
             // ViewModels

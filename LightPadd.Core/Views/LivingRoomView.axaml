@@ -22,17 +22,19 @@
                    Margin="0 0 0 10"/>
         <WrapPanel Grid.Row="1" Orientation="Horizontal">
             <WrapPanel.Styles>
-                <Style Selector="Button">
+                <Style Selector="ToggleButton">
                     <Setter Property="Margin" Value="10"/>
                     <Setter Property="FontSize" Value="30"/>
                 </Style>
             </WrapPanel.Styles>
-            <!--TODO: Make this a command-->
             <ToggleButton x:Name="SquigglyLightButton"
                           Background="{StaticResource LcarsPeach}"
                           Content="SQUIGGLY LIGHT"
-                          IsChecked="{Binding IsSquigglyLightOn, Mode=TwoWay}"
-                          FontSize="30"/>
+                          IsChecked="{Binding IsSquigglyLightOn, Mode=TwoWay}"/>
+            <ToggleButton x:Name="BookcaseLedButton"
+                          Background="{StaticResource LcarsPeach}"
+                          Content="BOOKCASE LED CIRCLES"
+                          IsChecked="{Binding IsBookcaseLedOn, Mode=TwoWay}"/>
         </WrapPanel>
     </Grid>
     
