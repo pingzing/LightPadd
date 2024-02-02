@@ -85,13 +85,6 @@
                         </Button.Flyout>
                     </Button>
                 </Border>
-                <!--<Border Background="Black" HorizontalAlignment="Center" BorderThickness="0" Padding="0 0">
-                    <Button Content="BUTTON 2"
-                            Classes="side"
-                            Background="{StaticResource LcarsBlue}"                            
-                            Height="64"
-                            Margin="0 5 0 5"/>
-                </Border>-->
             </StackPanel>            
             
             <ContentControl Grid.Column="1" Content="{Binding LivingRoomVM}"/>
