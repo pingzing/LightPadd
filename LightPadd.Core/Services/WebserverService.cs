@@ -28,7 +28,7 @@ namespace LightPadd.Core.Services
         {
             // TODO: Fire some kind of event that the ButtonViewModel can hear, and update its state
             Debug.WriteLine(
-                $"Received POST: {JsonSerializer.Serialize(payload, SourceGenerationContext.Default.StatusEventPayload)}"
+                $"Received POST: {JsonSerializer.Serialize(payload, HubitatGenerationContext.Default.StatusEventPayload)}"
             );
         }
     }

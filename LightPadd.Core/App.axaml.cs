@@ -1,10 +1,12 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using LightPadd.Core.Services;
 using LightPadd.Core.ViewModels;
+using LightPadd.Core.Views;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace LightPadd.Core
@@ -14,6 +16,10 @@ namespace LightPadd.Core
         public IServiceProvider Services { get; private set; } = null!;
         public WebserverService _serverService { get; private set; } = null!;
 
+        // Any Views that get instantiated indirectly (i.e. via ViewModel -> ViewLocator creation
+        // as a result of data binding).
+        // should be specified here so they don't get trimmed away.
+        [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(LivingRoomView))]
         public override void Initialize()
         {
             Services = ConfigureServices();

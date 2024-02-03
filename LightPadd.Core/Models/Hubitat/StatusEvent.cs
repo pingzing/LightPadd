@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace LightPadd.Core.Models.Hubitat;
+﻿namespace LightPadd.Core.Models.Hubitat;
 
 public class StatusEventPayload
 {
@@ -46,7 +44,3 @@ public class StatusEvent
     public string? Data { get; set; }
     public string? Type { get; set; }
 }
-
-[JsonSourceGenerationOptions(WriteIndented = true)]
-[JsonSerializable(typeof(StatusEventPayload))]
-internal partial class SourceGenerationContext : JsonSerializerContext { }

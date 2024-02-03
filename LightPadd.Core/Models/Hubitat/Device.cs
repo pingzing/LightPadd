@@ -23,7 +23,7 @@ public class Device
     public Dictionary<string, JsonElement> ExtensionData { get; set; } = null!;
 }
 
-[PolyJsonConverter("dataType")]
+// Converter itself is created in code, over in HubitatClientBase.
 [PolyJsonConverter.SubType(typeof(StringDeviceAttribute), "STRING")]
 [PolyJsonConverter.SubType(typeof(EnumDeviceAttribute), "ENUM")]
 [PolyJsonConverter.SubType(typeof(NumberDeviceAttribute), "NUMBER")]
@@ -49,7 +49,7 @@ public class NumberDeviceAttribute : BaseDeviceAttribute
     public double? CurrentValue { get; set; }
 }
 
-[JsonConverter(typeof(JsonStringEnumConverter))]
+[JsonConverter(typeof(JsonStringEnumMemberConverter))]
 public enum DeviceAttributeDataTypeKind
 {
     [JsonPropertyName("STRING")]

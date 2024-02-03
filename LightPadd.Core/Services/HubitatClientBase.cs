@@ -1,8 +1,10 @@
 ﻿using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using LightPadd.Core.Models.Hubitat;
+using PolyJson;
 
 namespace LightPadd.Core.Services;
 
@@ -14,6 +16,10 @@ namespace LightPadd.Core.Services;
 
 // See LivingRoomClient for an example.
 
+// Disabling this warning, because using _serOpts ensures that types are resolved based on
+// HubitatGenerationContext, which *should* be annotated with all types we intend to
+// deserialize.
+#pragma warning disable IL2026 // Members annotated with 'RequiresUnreferencedCodeAttribute' require dynamic access otherwise can break functionality when trimming application code
 public abstract class HubitatClientBase
 {
     protected string AccessToken { get; init; }
@@ -24,7 +30,15 @@ public abstract class HubitatClientBase
     {
         AccessToken = accessToken;
         Client = client;
+
+        var deviceConverterAttribute = new PolyJsonConverterAttribute("dataType");
+        JsonConverter deviceAttributeConverter = deviceConverterAttribute.CreateConverter(
+            typeof(BaseDeviceAttribute)
+        );
+
         _serOpts = new JsonSerializerOptions(JsonSerializerDefaults.Web);
+        _serOpts.TypeInfoResolver = HubitatGenerationContext.Default;
+        _serOpts.Converters.Add(deviceAttributeConverter);
     }
 
     public virtual async Task<Device?> GetDevice(string id)
@@ -108,3 +122,4 @@ public abstract class HubitatClientBase
         return latestState;
     }
 }
+#pragma warning restore IL2026 // Members annotated with 'RequiresUnreferencedCodeAttribute' require dynamic access otherwise can break functionality when trimming application code

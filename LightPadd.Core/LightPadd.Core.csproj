@@ -9,6 +9,7 @@
 	<OptimizationPreference>Speed</OptimizationPreference>
 	<PublishReadyToRun>true</PublishReadyToRun>	
 	<PublishSingleFile>true</PublishSingleFile>
+    <PublishTrimmed>true</PublishTrimmed>
     <WarningsAsErrors>CS8618</WarningsAsErrors>
   </PropertyGroup>
 
@@ -37,5 +38,9 @@
     <Compile Update="Views\MainView.axaml.cs">
       <DependentUpon>Views\MainView.axaml</DependentUpon>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
 </Project>

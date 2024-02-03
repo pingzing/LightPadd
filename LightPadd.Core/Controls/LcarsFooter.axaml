@@ -1,6 +1,7 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:controls="using:LightPadd.Core.Controls">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:LightPadd.Core.Controls"
+                    xmlns:system="using:System">
 
     <Design.PreviewWith>
         <StackPanel Spacing="10" Width="400">
@@ -13,7 +14,7 @@
         <Setter Property="HorizontalContentAlignment" Value="Right"/>
         <!--TODO: Expose property that allows setting text foreground separately from header color-->
         <Setter Property="ContentTemplate">
-            <DataTemplate>
+            <DataTemplate x:DataType="system:String">
                 <!--TODO: Make visibility conditional on content being set-->
                 <Border x:Name="DefaultContentBorder" 
                         Background="Black"
@@ -25,7 +26,7 @@
                     <TextBlock x:Name="DefaultTextBlock"
                                Classes="caption"
                                Foreground="{TemplateBinding Foreground}"
-                               Text="{ReflectionBinding .}"
+                               Text="{Binding .}"
                                TextTrimming="None"
                                TextWrapping="NoWrap"
                                VerticalAlignment="Center"/>
