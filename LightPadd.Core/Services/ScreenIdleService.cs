@@ -43,6 +43,7 @@ namespace LightPadd.Core.Services
                 return;
             }
 
+            _idleTimer.Stop();
             _isIdle = true;
             _dimScreenCts = new CancellationTokenSource();
             _brightnessBeforeDeactivate = _brightnessService.Brightness;

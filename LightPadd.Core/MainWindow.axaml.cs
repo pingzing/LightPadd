@@ -1,28 +1,22 @@
-using System.Diagnostics;
 using Avalonia.Controls;
+using Avalonia.Input;
 using LightPadd.Core.ViewModels;
 
 namespace LightPadd.Core;
 
 public partial class MainWindow : Window
 {
-    private MainViewViewModel _mainViewModel;
+    private MainViewViewModel _mainViewViewModel;
 
     public MainWindow()
     {
         InitializeComponent();
-        AddHandler(TappedEvent, MainWindow_Tapped, handledEventsToo: true);
-
-        _mainViewModel = VMResolver.Resolve<MainViewViewModel>();
-        MainView.DataContext = _mainViewModel;
+        _mainViewViewModel = VMResolver.Resolve<MainViewViewModel>();
+        MainView.DataContext = _mainViewViewModel;
     }
 
-    private void MainWindow_Tapped(object? sender, Avalonia.Input.TappedEventArgs e)
+    protected override void OnPointerMoved(PointerEventArgs e)
     {
-        // Route all tap inputs to the MainViewModel, so it can
-        // inform the activity service to keep the screen awake,
-        // or wake it up.
-        Debug.WriteLine("MainWindow heard a tap.");
-        _mainViewModel.OnActivity();
+        _mainViewViewModel.OnActivity();
     }
 }

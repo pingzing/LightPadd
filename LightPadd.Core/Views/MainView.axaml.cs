@@ -1,6 +1,8 @@
 using System;
 using System.Diagnostics;
+using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 
 namespace LightPadd.Core.Views;
