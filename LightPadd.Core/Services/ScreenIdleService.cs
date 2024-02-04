@@ -12,6 +12,7 @@ namespace LightPadd.Core.Services
         private bool _isIdle = false;
         private byte? _brightnessBeforeDeactivate = null;
 
+        // TODO: Detect shutdown signal, and restore screen brightness, turn it back on
         public ScreenIdleService(ScreenBrightnessService brightnessService)
         {
             _brightnessService = brightnessService;
