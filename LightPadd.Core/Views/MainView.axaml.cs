@@ -1,30 +1,15 @@
 using System;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
-using Avalonia.Markup.Xaml.MarkupExtensions;
-using Avalonia.Media;
-using Avalonia.Threading;
-using LightPadd.Core.Services;
-using LightPadd.Core.ViewModels;
 
 namespace LightPadd.Core.Views;
 
 public partial class MainView : UserControl
 {
-    private MainViewViewModel ViewModel;
-
     public MainView()
     {
         InitializeComponent();
-        ViewModel = (MainViewViewModel)DataContext!;
-
-        Console.WriteLine("Loaded.");
     }
 
     private void FlyoutRestart_Click(object? sender, RoutedEventArgs e)

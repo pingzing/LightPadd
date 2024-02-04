@@ -51,6 +51,7 @@ namespace LightPadd.Core
 
             // Services
             services.AddSingleton<ScreenBrightnessService>();
+            services.AddSingleton<ScreenIdleService>();
             services.AddHttpClient<LivingRoomClient>(
                 (x) => x.BaseAddress = new Uri("http://192.168.0.44/apps/api/3/devices/")
             );

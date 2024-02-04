@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Threading.Tasks;
 using LightPadd.Core.Services;
 
 namespace LightPadd.Core.ViewModels;
@@ -11,12 +6,17 @@ namespace LightPadd.Core.ViewModels;
 public partial class MainViewViewModel : ViewModelBase
 {
     private readonly ScreenBrightnessService _brightnessService;
+    private readonly ScreenIdleService _screenIdleService;
 
     public LivingRoomViewModel LivingRoomVM { get; init; }
 
-    public MainViewViewModel(ScreenBrightnessService brightnessService)
+    public MainViewViewModel(
+        ScreenBrightnessService brightnessService,
+        ScreenIdleService screenIdleService
+    )
     {
         _brightnessService = brightnessService;
+        _screenIdleService = screenIdleService;
         LivingRoomVM = VMResolver.Resolve<LivingRoomViewModel>();
     }
 
@@ -28,6 +28,11 @@ public partial class MainViewViewModel : ViewModelBase
             _brightnessService.Brightness = (byte)value;
             OnPropertyChanged();
         }
+    }
+
+    public void OnActivity()
+    {
+        _screenIdleService.ActivityDetected();
     }
 
     // For the designer

@@ -15,6 +15,10 @@ public partial class LivingRoomView : UserControl
 
     private async void LivingRoom_Loaded(object? sender, RoutedEventArgs e)
     {
+        if (Design.IsDesignMode)
+        {
+            return;
+        }
         ViewModel = (LivingRoomViewModel)DataContext!;
         await ViewModel.Initialize();
     }

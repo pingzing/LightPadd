@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 
 namespace LightPadd.Core.Services;
@@ -13,21 +14,37 @@ public class ScreenBrightnessService
     // and a) wakes up the screen and b) dismisses itself, on touch
     public ScreenBrightnessService() { }
 
+    private bool _dummyIsScreenOn = true;
     public bool IsScreenOn
     {
         get
         {
-            string value = File.ReadAllText(BacklightFile);
-            return value == "0";
+            if (OperatingSystem.IsLinux())
+            {
+                string value = File.ReadAllText(BacklightFile);
+                return value == "0";
+            }
+            else
+            {
+                return _dummyIsScreenOn;
+            }
         }
         set
         {
-            // 0 means "on", 1 means "off"
-            string onString = value ? "0" : "1";
-            File.WriteAllText(BacklightFile, onString);
+            if (OperatingSystem.IsLinux())
+            {
+                // 0 means "on", 1 means "off"
+                string onString = value ? "0" : "1";
+                File.WriteAllText(BacklightFile, onString);
+            }
+            else
+            {
+                _dummyIsScreenOn = value;
+            }
         }
     }
 
+    // TODO: Probably make this fire NotifyPropertyChanged, so that things can bind to it.
     private byte _dummyBrightness = 128;
     public byte Brightness
     {
@@ -52,6 +69,7 @@ public class ScreenBrightnessService
             }
             else
             {
+                Debug.WriteLine($"Dummy brightness: {value}");
                 _dummyBrightness = value;
             }
         }
