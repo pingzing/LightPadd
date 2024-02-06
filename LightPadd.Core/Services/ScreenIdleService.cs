@@ -1,27 +1,33 @@
 ﻿using System;
 using System.Threading;
 using Avalonia.Threading;
+using CommunityToolkit.Mvvm.Messaging;
+using LightPadd.Core.Messaging;
 
 namespace LightPadd.Core.Services
 {
     public class ScreenIdleService
     {
         private readonly ScreenBrightnessService _brightnessService;
+        private readonly IMessenger _messenger;
         private readonly DispatcherTimer _idleTimer;
+
         private CancellationTokenSource _dimScreenCts;
         private bool _isIdle = false;
         private byte? _brightnessBeforeDeactivate = null;
 
-        // TODO: Detect shutdown signal, and restore screen brightness, turn it back on
-        public ScreenIdleService(ScreenBrightnessService brightnessService)
+        public ScreenIdleService(ScreenBrightnessService brightnessService, IMessenger messenger)
         {
             _brightnessService = brightnessService;
+            _messenger = messenger;
             _dimScreenCts = new CancellationTokenSource();
             _idleTimer = new DispatcherTimer(
                 TimeSpan.FromSeconds(30),
                 DispatcherPriority.Normal,
                 OnIdle
             );
+
+            _messenger.Register<AppShutdownMessage>(this, OnShutdown);
         }
 
         public void ActivityDetected()
@@ -77,6 +83,17 @@ namespace LightPadd.Core.Services
 
             _brightnessService.Brightness = 0;
             _brightnessService.IsScreenOn = false;
+        }
+
+        private void OnShutdown(object _, AppShutdownMessage message)
+        {
+            _idleTimer.Stop();
+            _dimScreenCts.Cancel();
+            if (_isIdle)
+            {
+                _brightnessService.IsScreenOn = true;
+                _brightnessService.Brightness = _brightnessBeforeDeactivate ?? 128;
+            }
         }
     }
 }

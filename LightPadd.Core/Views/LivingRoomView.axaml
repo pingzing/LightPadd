@@ -6,6 +6,7 @@
              
              xmlns:controls="using:LightPadd.Core.Controls"
              xmlns:vm="using:LightPadd.Core.ViewModels"
+             xmlns:views="using:LightPadd.Core.Views"
              
              x:Class="LightPadd.Core.Views.LivingRoomView"
              x:DataType="vm:LivingRoomViewModel"
@@ -20,22 +21,22 @@
           RowDefinitions="Auto, *">
         <TextBlock Grid.Row="0" Text="LIVING ROOM" Classes="title" Foreground="{StaticResource LcarsGold}"
                    Margin="0 0 0 10"/>
-        <WrapPanel Grid.Row="1" Orientation="Horizontal">
-            <WrapPanel.Styles>
-                <Style Selector="ToggleButton">
+        <ItemsControl Grid.Row="1"
+                      ItemsSource="{Binding Switches}"
+                      VerticalAlignment="Center"
+                      HorizontalAlignment="Center"
+                      Margin="0 0 0 50">
+            <ItemsControl.Styles>
+                <Style Selector="views|SwitchView">
                     <Setter Property="Margin" Value="10"/>
-                    <Setter Property="FontSize" Value="30"/>
                 </Style>
-            </WrapPanel.Styles>
-            <ToggleButton x:Name="SquigglyLightButton"
-                          Background="{StaticResource LcarsPeach}"
-                          Content="SQUIGGLY LIGHT"
-                          IsChecked="{Binding IsSquigglyLightOn, Mode=TwoWay}"/>
-            <ToggleButton x:Name="BookcaseLedButton"
-                          Background="{StaticResource LcarsPeach}"
-                          Content="BOOKCASE LED CIRCLES"
-                          IsChecked="{Binding IsBookcaseLedOn, Mode=TwoWay}"/>
-        </WrapPanel>
+            </ItemsControl.Styles>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>       
     </Grid>
     
 </UserControl>

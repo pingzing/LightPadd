@@ -10,8 +10,6 @@ public class ScreenBrightnessService
     private const string BacklightFile = "/sys/class/backlight/rpi_backlight/bl_power";
 
     // TODO: Set up file watchers so that if the value changes externally, we can make our slider update
-    // TODO: Set up screen timeout that sends a message over to some overlay touch control that sits on top of the MainView
-    // and a) wakes up the screen and b) dismisses itself, on touch
     public ScreenBrightnessService() { }
 
     private bool _dummyIsScreenOn = true;

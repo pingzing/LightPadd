@@ -16,7 +16,7 @@ public partial class MainWindow : Window
             OnGlobalPointerPressed,
             handledEventsToo: true
         );
-        _mainViewViewModel = VMResolver.Resolve<MainViewViewModel>();
+        _mainViewViewModel = VMResolverService.Resolve<MainViewViewModel>();
         MainView.DataContext = _mainViewViewModel;
     }
 

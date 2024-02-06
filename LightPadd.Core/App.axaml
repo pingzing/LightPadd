@@ -53,18 +53,18 @@
         </Style>
 
         <Style Selector="TextBlock.header">
-            <Setter Property="FontSize" Value="40"/>
+            <Setter Property="FontSize" Value="45"/>
             <Setter Property="FontWeight" Value="Light"/>
         </Style>
 
         <Style Selector="TextBlock.subheader">
-            <Setter Property="FontSize" Value="34"/>
+            <Setter Property="FontSize" Value="39"/>
             <Setter Property="FontWeight" Value="Light"/>
         </Style>
 
         <Style Selector="TextBlock.title">
             <Setter Property="FontWeight" Value="SemiLight"/>
-            <Setter Property="FontSize" Value="29" />
+            <Setter Property="FontSize" Value="35" />
         </Style>
 
         <Style Selector="TextBlock.subtitle">

@@ -17,7 +17,7 @@ public partial class MainViewViewModel : ViewModelBase
     {
         _brightnessService = brightnessService;
         _screenIdleService = screenIdleService;
-        LivingRoomVM = VMResolver.Resolve<LivingRoomViewModel>();
+        LivingRoomVM = VMResolverService.Resolve<LivingRoomViewModel>();
     }
 
     public double Brightness
