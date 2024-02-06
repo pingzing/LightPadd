@@ -23,6 +23,7 @@ namespace LightPadd.Core
         // as a result of data binding).
         // should be specified here so they don't get trimmed away.
         [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(LivingRoomView))]
+        [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(SwitchView))]
         public override void Initialize()
         {
             Services = ConfigureServices();
