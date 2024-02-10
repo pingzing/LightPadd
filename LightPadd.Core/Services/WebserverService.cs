@@ -6,6 +6,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.Messaging;
+using GenHTTP.Api.Content;
 using GenHTTP.Api.Infrastructure;
 using GenHTTP.Api.Protocol;
 using GenHTTP.Engine;
@@ -24,6 +25,7 @@ namespace LightPadd.Core.Services
         private readonly IServerHost _host;
         private readonly IMessenger _messenger;
         private readonly IOptionsMonitor<HubitatOptions> _hubitatOptions;
+        private readonly SerializationBuilder _sourceGenJsonRegistry;
 
         public WebserverService(
             IMessenger messenger,
@@ -32,13 +34,21 @@ namespace LightPadd.Core.Services
         {
             _messenger = messenger;
             _hubitatOptions = hubitatOptions;
-
-            var sourceGenJsonRegistry = Serialization
+            _hubitatOptions.OnChange(OptionsChanged);
+            _sourceGenJsonRegistry = Serialization
                 .Empty()
                 .Add(ContentType.ApplicationJson, new SourceGenJsonFormat())
                 .Default(ContentType.ApplicationJson);
+            _host = Host.Create();
 
-            var handlerBuilder = Inline.Create().Formats(sourceGenJsonRegistry);
+            OptionsChanged(hubitatOptions.CurrentValue);
+        }
+
+        private void OptionsChanged(HubitatOptions options)
+        {
+            _host.Stop();
+
+            var handlerBuilder = Inline.Create().Formats(_sourceGenJsonRegistry);
             foreach (var room in _hubitatOptions.CurrentValue.Rooms)
             {
                 handlerBuilder = handlerBuilder.Post(
@@ -46,7 +56,8 @@ namespace LightPadd.Core.Services
                     (StatusEventPayload p) => OnSocketStatusUpdate(p, room.Id)
                 );
             }
-            _host = Host.Create()
+
+            _host
                 .Handler(handlerBuilder)
                 .Port(_hubitatOptions.CurrentValue.PostbackUrlPort)
 #if DEBUG

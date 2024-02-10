@@ -37,6 +37,7 @@ public partial class MainViewViewModel : ViewModelBase
 
     private void InitializeRoomList(HubitatRoom[] rooms)
     {
+        // TODO: This seems to result in exactly on extra room on reload. Weird.
         Rooms.Clear();
         Rooms.AddRange(rooms.Select(VMResolverService.Resolve<RoomViewModel, HubitatRoom>));
         SelectedRoom = Rooms.FirstOrDefault();
