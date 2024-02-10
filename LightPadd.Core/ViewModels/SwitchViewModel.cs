@@ -12,13 +12,15 @@ namespace LightPadd.Core.ViewModels;
 
 public partial class SwitchViewModel : ViewModelBase
 {
-    private readonly LivingRoomClient _client;
+    private readonly HubitatClient _client;
+    private readonly string _roomId;
     private readonly IMessenger _messenger;
     private readonly Device _backingDevice;
 
-    public SwitchViewModel(LivingRoomClient client, IMessenger messenger, Device device)
+    public SwitchViewModel(IMessenger messenger, Device device, HubitatClient client, string roomId)
     {
         _client = client;
+        _roomId = roomId;
         _messenger = messenger;
         _backingDevice = device;
 
@@ -29,7 +31,11 @@ public partial class SwitchViewModel : ViewModelBase
         }
         Name = _backingDevice.Label.ToUpperInvariant();
 
-        _messenger.Register<SwitchStateChangedArgs, string>(this, device.Id, OnDeviceEvent);
+        _messenger.Register<SwitchStateChangedArgs, string>(
+            this,
+            $"{_roomId}-{_backingDevice.Id}",
+            OnDeviceEvent
+        );
     }
 
     [ObservableProperty]
@@ -63,6 +69,7 @@ public partial class SwitchViewModel : ViewModelBase
         _client = null!;
         _messenger = null!;
         _backingDevice = null!;
+        _roomId = "n/a";
         Name = "ToggleButton".ToUpperInvariant();
     }
 }

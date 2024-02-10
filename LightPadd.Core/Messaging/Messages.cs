@@ -2,4 +2,4 @@
 
 public record AppShutdownMessage(int ExitCode);
 
-public record SwitchStateChangedArgs(string Id, bool IsOn);
+public record SwitchStateChangedArgs(string DeviceId, bool IsOn);

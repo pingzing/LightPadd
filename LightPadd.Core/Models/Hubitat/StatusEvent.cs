@@ -1,11 +1,13 @@
-﻿namespace LightPadd.Core.Models.Hubitat;
+﻿using System.Collections.Generic;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+
+namespace LightPadd.Core.Models.Hubitat;
 
 public class StatusEventPayload
 {
     public StatusEvent Content { get; set; } = null!;
 }
-
-// TODO: Better typing here
 
 /*
  * Example value:
@@ -43,4 +45,7 @@ public class StatusEvent
     public string? Unit { get; set; }
     public string? Data { get; set; }
     public string? Type { get; set; }
+
+    [JsonExtensionData]
+    public Dictionary<string, JsonElement> ExtensionData { get; set; } = null!;
 }

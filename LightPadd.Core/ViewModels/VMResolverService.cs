@@ -52,6 +52,17 @@ public class VMResolverService
         return ResolveDynamicParams<TViewModel>([arg1!, arg2!]);
     }
 
+    public static TViewModel Resolve<
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TViewModel,
+        TArg1,
+        TArg2,
+        TArg3
+    >(TArg1? arg1, TArg2? arg2, TArg3? arg3)
+        where TViewModel : ViewModelBase
+    {
+        return ResolveDynamicParams<TViewModel>([arg1!, arg2!, arg3!]);
+    }
+
     private static TViewModel ResolveDynamicParams<
         [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TViewModel
     >(object[] userArgs)

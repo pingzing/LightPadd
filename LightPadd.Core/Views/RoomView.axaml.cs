@@ -4,11 +4,11 @@ using LightPadd.Core.ViewModels;
 
 namespace LightPadd.Core.Views;
 
-public partial class LivingRoomView : UserControl
+public partial class RoomView : UserControl
 {
-    private LivingRoomViewModel? ViewModel;
+    private RoomViewModel? _viewModel;
 
-    public LivingRoomView()
+    public RoomView()
     {
         InitializeComponent();
     }
@@ -19,7 +19,7 @@ public partial class LivingRoomView : UserControl
         {
             return;
         }
-        ViewModel = (LivingRoomViewModel)DataContext!;
-        await ViewModel.Initialize();
+        _viewModel = (RoomViewModel)DataContext!;
+        await _viewModel.Initialize();
     }
 }

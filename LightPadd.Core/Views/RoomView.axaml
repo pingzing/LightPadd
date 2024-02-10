@@ -8,18 +8,18 @@
              xmlns:vm="using:LightPadd.Core.ViewModels"
              xmlns:views="using:LightPadd.Core.Views"
              
-             x:Class="LightPadd.Core.Views.LivingRoomView"
-             x:DataType="vm:LivingRoomViewModel"
+             x:Class="LightPadd.Core.Views.RoomView"
+             x:DataType="vm:RoomViewModel"
              
              Loaded="LivingRoom_Loaded">
 
     <Design.DataContext>
-        <vm:LivingRoomViewModel/>
+        <vm:RoomViewModel/>
     </Design.DataContext>
 
-    <Grid Margin="10"
+    <Grid Margin="10 0 10 10"
           RowDefinitions="Auto, *">
-        <TextBlock Grid.Row="0" Text="LIVING ROOM" Classes="title" Foreground="{StaticResource LcarsGold}"
+        <TextBlock Grid.Row="0" Text="{Binding Title}" Classes="title" Foreground="{StaticResource LcarsGold}"
                    Margin="0 0 0 10"/>
         <ItemsControl Grid.Row="1"
                       ItemsSource="{Binding Switches}"

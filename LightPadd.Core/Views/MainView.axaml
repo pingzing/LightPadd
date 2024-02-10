@@ -9,7 +9,7 @@
              xmlns:vm="using:LightPadd.Core.ViewModels"
              
              x:Class="LightPadd.Core.Views.MainView"
-             x:DataType="vm:MainViewViewModel">
+             x:DataType="vm:MainViewViewModel">    
 
     <Design.DataContext>
         <vm:MainViewViewModel/>
@@ -19,49 +19,72 @@
 
         <controls:LcarsHeader x:Name="Header"
                               Grid.Row="0"
+                              Content="LIGHTS"
                               Foreground="{StaticResource LcarsGold}">
-            <controls:LcarsHeader.ContentTemplate>
-                <DataTemplate>					
-                        <Border Height="40" Margin="20 0 20 0" Padding="20 0 20 0" VerticalAlignment="Center"
-                                Background="Black">
-                            <StackPanel Orientation="Horizontal" Spacing="20">
-                                <TextBlock Text="LIGHTS" Classes="header"/>
-                                <Button Content="POWER" Background="{StaticResource LcarsRed}">
-                                    <Button.Flyout>
-                                        <Flyout FlyoutPresenterClasses="blackBg">
-                                            <StackPanel Spacing="10">
-                                                <Button Content="RESTART" 
-                                                        Background="{StaticResource LcarsLavender}"
-                                                        Click="FlyoutRestart_Click"
-                                                        HorizontalAlignment="Center"/>
-                                                <Button Content="SHUT DOWN"
-                                                        Background="{StaticResource LcarsRed}"
-                                                        Click="FlyoutShutodwn_Click" 
-                                                        HorizontalAlignment="Center"/>
-                                            </StackPanel>
-                                        </Flyout>
-                                    </Button.Flyout>
-                                </Button>
-                            </StackPanel>
-                        </Border>											
-                </DataTemplate>
-            </controls:LcarsHeader.ContentTemplate>
         </controls:LcarsHeader>
         
-        <Grid Grid.Row="1" ColumnDefinitions="Auto, *">
+        <!--Central content-->
+        <Grid Grid.Row="1" ColumnDefinitions="Auto, *" RowDefinitions="*, Auto">
 
-            <Grid Background="{StaticResource LcarsGold}" Width="70">                
-            </Grid>
+            <!--Sidebar background-->
+            <Border Grid.RowSpan="2" Background="{StaticResource LcarsGold}" Width="70"/>
+
+            <!--Room selector-->
+            <StackPanel Grid.Column="0">
+                <TabStrip x:Name="RoomButtonStrip" ItemsSource="{Binding Rooms}">
+                    <TabStrip.Styles>
+                        <Style Selector="TabStripItem">
+                            <Setter Property="Padding" Value="0"/>
+                            <Setter Property="Margin" Value="0"/>                        
+                        </Style>
+                        <Style Selector="TabStripItem:selected /template/ Border#PART_SelectedPipe">
+                            <Setter Property="IsVisible" Value="False" />
+                        </Style>
+                        <Style Selector="Button">
+                            <Setter Property="Background" Value="{StaticResource LcarsGold}"/>
+                        </Style>
+                        <Style Selector="Button.selected">
+                            <Setter Property="Background" Value="{StaticResource LcarsPeach}"/>
+                        </Style>
+                    </TabStrip.Styles>
+                    <TabStrip.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Vertical"/>
+                        </ItemsPanelTemplate>
+                    </TabStrip.ItemsPanel>
+                    <TabStrip.ItemTemplate>
+                        <DataTemplate DataType="vm:RoomViewModel">
+                            <Border x:Name="LcarsBorder" 
+                                    Background="Black"
+                                    HorizontalAlignment="Center" 
+                                    BorderThickness="0" 
+                                    Padding="0 5 0 0">
+                                <Button Classes="side"
+                                        Command="{Binding $parent[TabStrip].((vm:MainViewViewModel)DataContext).RoomTappedCommand}"
+                                        CommandParameter="{Binding}"
+                                        Content="{Binding Title}"
+                                        FontSize="19"
+                                        Height="64"/>
+                            </Border>
+                        </DataTemplate>
+                    </TabStrip.ItemTemplate>
+                </TabStrip>
+                <!--Can't get the nth-last-child(1) selector working for the tab strip,
+                so this masquerades as that last bit of 5 pixel padding.-->
+                <Rectangle Height="5" Fill="Black"/>
+            </StackPanel>
+
+            <!--Settings and power button-->
             <StackPanel VerticalAlignment="Bottom">
                 
-                <Border Background="Black" HorizontalAlignment="Center" BorderThickness="0">
-                    
-                    <Button Classes="side"
+                <Border Background="Black" HorizontalAlignment="Center" BorderThickness="0">                                                            
+                    <Button x:Name="SettingsButton" 
+                            Classes="side"
                             Background="{StaticResource LcarsBlue}"
                             Content="SETTINGS"
                             FontSize="19"
                             Height="128"
-                            Margin="0 5 0 5">
+                            Margin="0 5 0 0">
                         <Button.Flyout>
                             <Flyout FlyoutPresenterClasses="blackBg" Placement="Right">
                                 <StackPanel>
@@ -85,15 +108,45 @@
                         </Button.Flyout>
                     </Button>
                 </Border>
-            </StackPanel>            
+
+                <Border Background="Black" HorizontalAlignment="Center" BorderThickness="0">
+                    <Button x:Name="PowerButton"
+                            Classes="side"
+                            Background="{StaticResource LcarsRed}"
+                            Content="POWER"
+                            FontSize="19"
+                            Height="64"
+                            Margin="0 5 0 5">
+                        <Button.Flyout>
+                            <Flyout FlyoutPresenterClasses="blackBg" Placement="Right">
+                                <StackPanel Spacing="10">
+                                    <Button Content="RESTART"
+                                            Background="{StaticResource LcarsLavender}"
+                                            Click="FlyoutRestart_Click"
+                                            HorizontalAlignment="Center"/>
+                                    <Button Content="SHUT DOWN"
+                                            Background="{StaticResource LcarsRed}"
+                                            Click="FlyoutShutodwn_Click"
+                                            HorizontalAlignment="Center"/>
+                                </StackPanel>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>                    
+                </Border>
+                
+            </StackPanel>   
             
-            <ContentControl Grid.Column="1" Content="{Binding LivingRoomVM}"/>
+            <!--Central room content-->
+            <ContentControl Grid.Column="1" Grid.RowSpan="2" 
+                            Content="{Binding SelectedRoom}"/>
             
         </Grid>
+        
+        <!--Bottom footer-->
         <controls:LcarsFooter x:Name="Footer"
                               Grid.Row="2"
-                              Foreground="{StaticResource LcarsGold}"
-                              Content="{Binding LivingRoomVM.FooterText}">            
+                              Content="{Binding SelectedRoom.FooterText}"
+                              Foreground="{StaticResource LcarsGold}">
         </controls:LcarsFooter>
     </Grid>
     

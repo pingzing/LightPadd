@@ -24,8 +24,10 @@
     <PackageReference Include="GenHTTP.Core" Version="8.1.0" />
     <PackageReference Include="GenHTTP.Modules.Functional" Version="8.1.0" />
     <PackageReference Include="Macross.Json.Extensions" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
     <PackageReference Include="PolyJson" Version="1.4.0" />
   </ItemGroup>
 
@@ -35,6 +37,9 @@
 	</ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\RoomView.axaml.cs">
+      <DependentUpon>RoomView.axaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\MainView.axaml.cs">
       <DependentUpon>Views\MainView.axaml</DependentUpon>
     </Compile>
@@ -42,5 +47,15 @@
 
   <ItemGroup>
     <Folder Include="Properties\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="appsettings.dev.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DependentUpon>appsettings.json</DependentUpon>
+    </None>
   </ItemGroup>
 </Project>

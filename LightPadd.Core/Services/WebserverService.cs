@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -13,6 +14,8 @@ using GenHTTP.Modules.Conversion.Providers;
 using GenHTTP.Modules.Functional;
 using LightPadd.Core.Messaging;
 using LightPadd.Core.Models.Hubitat;
+using LightPadd.Core.Models.Options;
+using Microsoft.Extensions.Options;
 
 namespace LightPadd.Core.Services
 {
@@ -20,37 +23,46 @@ namespace LightPadd.Core.Services
     {
         private readonly IServerHost _host;
         private readonly IMessenger _messenger;
+        private readonly IOptionsMonitor<HubitatOptions> _hubitatOptions;
 
-        public WebserverService(IMessenger messenger)
+        public WebserverService(
+            IMessenger messenger,
+            IOptionsMonitor<HubitatOptions> hubitatOptions
+        )
         {
             _messenger = messenger;
+            _hubitatOptions = hubitatOptions;
 
-            var handler = _host = Host.Create();
+            var sourceGenJsonRegistry = Serialization
+                .Empty()
+                .Add(ContentType.ApplicationJson, new SourceGenJsonFormat())
+                .Default(ContentType.ApplicationJson);
 
-            _host
-                .Handler(
-                    Inline
-                        .Create()
-                        .Post("/socketStatus", OnSocketStatusUpdate)
-                        .Formats(
-                            Serialization
-                                .Empty()
-                                .Add(ContentType.ApplicationJson, new SourceGenJsonFormat())
-                                .Default(ContentType.ApplicationJson)
-                        )
-                )
-                .Port(8080)
+            var handlerBuilder = Inline.Create().Formats(sourceGenJsonRegistry);
+            foreach (var room in _hubitatOptions.CurrentValue.Rooms)
+            {
+                handlerBuilder = handlerBuilder.Post(
+                    room.PostbackUrlPath,
+                    (StatusEventPayload p) => OnSocketStatusUpdate(p, room.Id)
+                );
+            }
+            _host = Host.Create()
+                .Handler(handlerBuilder)
+                .Port(_hubitatOptions.CurrentValue.PostbackUrlPort)
 #if DEBUG
                 .Development()
 #endif
                 .Start();
         }
 
-        public void OnSocketStatusUpdate(StatusEventPayload payload)
+        public void OnSocketStatusUpdate(StatusEventPayload payload, string roomId)
         {
-            string id = payload.Content.DeviceId;
+            string deviceId = payload.Content.DeviceId;
             bool isOn = payload.Content.Value.Equals("on", StringComparison.OrdinalIgnoreCase);
-            _messenger.Send<SwitchStateChangedArgs, string>(new(id, isOn), id);
+            _messenger.Send<SwitchStateChangedArgs, string>(
+                new(deviceId, isOn),
+                $"{roomId}-{deviceId}"
+            );
         }
 
         private class SourceGenJsonFormat : ISerializationFormat
