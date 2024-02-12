@@ -89,7 +89,7 @@ public partial class MainViewViewModel : ViewModelBase
         Rooms =
         [
             new RoomViewModel() { Title = "EXAMPLE ROOM" },
-            new RoomViewModel() { Title = "SECOND ROOM" },
+            new RoomViewModel() { Title = "SECOND ROOM" }
         ];
         SelectedRoom = Rooms.First();
     }
