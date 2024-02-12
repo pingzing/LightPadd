@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Timers;
 using CommunityToolkit.Mvvm.Messaging;
-using GenHTTP.Api.Content;
 using GenHTTP.Api.Infrastructure;
 using GenHTTP.Api.Protocol;
 using GenHTTP.Engine;
@@ -60,7 +58,6 @@ namespace LightPadd.Core.Services
 
         private void OptionsChanged(HubitatOptions options)
         {
-            // TODO: This gets called twice-per-change. Add a throttle delay thingy.
             _host.Stop();
 
             var handlerBuilder = Inline.Create().Formats(_sourceGenJsonRegistry);

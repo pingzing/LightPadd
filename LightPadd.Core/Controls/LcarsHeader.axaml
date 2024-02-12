@@ -24,6 +24,7 @@
 					<TextBlock x:Name="DefaultTextBlock"
 							   Classes="header"
 							   Foreground="{TemplateBinding Foreground}"
+                               Margin="0 2 0 0"
 							   Text="{Binding .}"
 							   TextTrimming="None"
 							   TextWrapping="NoWrap"

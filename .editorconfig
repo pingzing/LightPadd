@@ -7,16 +7,16 @@ root = true
 # Naming rules
 
 dotnet_naming_rule.interface_should_be_begins_with_i.severity = suggestion
-dotnet_naming_rule.interface_should_be_begins_with_i.symbols = interface
 dotnet_naming_rule.interface_should_be_begins_with_i.style = begins_with_i
+dotnet_naming_rule.interface_should_be_begins_with_i.symbols = interface
 
 dotnet_naming_rule.types_should_be_pascal_case.severity = suggestion
-dotnet_naming_rule.types_should_be_pascal_case.symbols = types
 dotnet_naming_rule.types_should_be_pascal_case.style = pascal_case
+dotnet_naming_rule.types_should_be_pascal_case.symbols = types
 
 dotnet_naming_rule.non_field_members_should_be_pascal_case.severity = suggestion
-dotnet_naming_rule.non_field_members_should_be_pascal_case.symbols = non_field_members
 dotnet_naming_rule.non_field_members_should_be_pascal_case.style = pascal_case
+dotnet_naming_rule.non_field_members_should_be_pascal_case.symbols = non_field_members
 
 # Define the 'private_fields_underscored' naming rule
 dotnet_naming_rule.private_fields_underscored.symbols = private_fields
@@ -27,6 +27,10 @@ dotnet_naming_rule.private_fields_underscored.severity = warning
 dotnet_naming_rule.private_static_fields_none.symbols = private_static_fields
 dotnet_naming_rule.private_static_fields_none.style = underscored
 dotnet_naming_rule.private_static_fields_none.severity = warning
+
+dotnet_naming_rule.private_constant_fields.symbols = private_constant_fields
+dotnet_naming_rule.private_constant_fields.style = pascal_case
+dotnet_naming_rule.private_constant_fields.severity = warning
 
 # Symbol specifications
 
@@ -51,6 +55,11 @@ dotnet_naming_symbols.private_static_fields.applicable_kinds = field
 dotnet_naming_symbols.private_static_fields.applicable_accessibilities = private
 dotnet_naming_symbols.private_static_fields.required_modifiers = static
 
+# Define the 'private_constant_fields' symbol group
+dotnet_naming_symbols.private_constant_fields.applicable_kinds = field
+dotnet_naming_symbols.private_constant_fields.applicable_accessibilities = private
+dotnet_naming_symbols.private_constant_fields.required_modifiers = const
+
 # Naming styles
 
 dotnet_naming_style.begins_with_i.required_prefix = I
@@ -66,6 +75,8 @@ dotnet_naming_style.pascal_case.capitalization = pascal_case
 # Define the 'underscored' naming style
 dotnet_naming_style.underscored.capitalization = camel_case
 dotnet_naming_style.underscored.required_prefix = _
+
+dotnet_naming_style.constant_style.capitalization = pascal_case
 
 dotnet_style_operator_placement_when_wrapping = beginning_of_line
 tab_width = 4

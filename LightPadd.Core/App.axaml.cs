@@ -1,5 +1,6 @@
 using System;
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
@@ -22,6 +23,12 @@ namespace LightPadd.Core
 
         public override void Initialize()
         {
+            if (Design.IsDesignMode)
+            {
+                // TODO: make this less dumb?
+                AvaloniaXamlLoader.Load(this);
+                return;
+            }
             ViewTrimHinter.RegisterTrimHints();
             Services = ConfigureServices();
             _serverService = Services.GetRequiredService<WebserverService>();
@@ -82,7 +89,17 @@ namespace LightPadd.Core
 #pragma warning restore IL2026 // Members annotated with 'RequiresUnreferencedCodeAttribute' require dynamic access otherwise can break functionality when trimming application code
 
             // Services
-            services.AddSingleton<ScreenBrightnessService>();
+            if (OperatingSystem.IsLinux())
+            {
+                services.AddSingleton<
+                    IBrightnessService,
+                    RaspberryPiTouchscreenBrightnessService
+                >();
+            }
+            else
+            {
+                services.AddSingleton<IBrightnessService, DummyBrightnessService>();
+            }
             services.AddSingleton<ScreenIdleService>();
             foreach (var room in hubitatConfig.Rooms)
             {

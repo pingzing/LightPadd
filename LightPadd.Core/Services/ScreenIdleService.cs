@@ -8,7 +8,7 @@ namespace LightPadd.Core.Services
 {
     public class ScreenIdleService
     {
-        private readonly ScreenBrightnessService _brightnessService;
+        private readonly IBrightnessService _brightnessService;
         private readonly IMessenger _messenger;
         private readonly DispatcherTimer _idleTimer;
 
@@ -16,7 +16,7 @@ namespace LightPadd.Core.Services
         private bool _isIdle = false;
         private byte? _brightnessBeforeDeactivate = null;
 
-        public ScreenIdleService(ScreenBrightnessService brightnessService, IMessenger messenger)
+        public ScreenIdleService(IBrightnessService brightnessService, IMessenger messenger)
         {
             _brightnessService = brightnessService;
             _messenger = messenger;

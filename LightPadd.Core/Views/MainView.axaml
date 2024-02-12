@@ -2,11 +2,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="480"
              
              xmlns:controls="using:LightPadd.Core.Controls"
              xmlns:views="using:LightPadd.Core.Views"
              xmlns:vm="using:LightPadd.Core.ViewModels"
+             xmlns:conv="using:LightPadd.Core.Converters"
              
              x:Class="LightPadd.Core.Views.MainView"
              x:DataType="vm:MainViewViewModel">    
@@ -14,6 +15,10 @@
     <Design.DataContext>
         <vm:MainViewViewModel/>
     </Design.DataContext>
+
+    <UserControl.Resources>
+        <conv:ByteToDoubleConverter x:Key="ByteToDoubleConverter"/>
+    </UserControl.Resources>
     
     <Grid RowDefinitions="Auto, *, Auto">
 
@@ -30,55 +35,69 @@
             <Border Grid.RowSpan="2" Background="{StaticResource LcarsGold}" Width="70"/>
 
             <!--Room selector-->
-            <StackPanel Grid.Column="0">
-                <TabStrip x:Name="RoomButtonStrip" 
-                          ItemsSource="{Binding Rooms}"
-                          SelectedItem="{Binding SelectedRoom}">
-                    <TabStrip.Styles>
-                        <Style Selector="TabStripItem">
-                            <Setter Property="Padding" Value="0"/>
-                            <Setter Property="Margin" Value="0"/>                        
-                        </Style>
-                        <Style Selector="TabStripItem:selected /template/ Border#PART_SelectedPipe">
-                            <Setter Property="IsVisible" Value="False" />
-                        </Style>
-                        <Style Selector="Button">
-                            <Setter Property="Background" Value="{StaticResource LcarsGold}"/>
-                        </Style>
-                        <Style Selector="TabStripItem:selected Button">
-                            <Setter Property="Background" Value="{StaticResource LcarsPeach}"/>
-                        </Style>
-                    </TabStrip.Styles>
-                    <TabStrip.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel Orientation="Vertical"/>
-                        </ItemsPanelTemplate>
-                    </TabStrip.ItemsPanel>
-                    <TabStrip.ItemTemplate>
-                        <DataTemplate DataType="vm:RoomViewModel">
-                            <Border x:Name="LcarsBorder" 
-                                    Background="Black"
-                                    HorizontalAlignment="Center" 
-                                    BorderThickness="0" 
-                                    Padding="0 5 0 0">
-                                <Button Classes="side"
-                                        Command="{Binding $parent[TabStrip].((vm:MainViewViewModel)DataContext).RoomTappedCommand}"
-                                        CommandParameter="{Binding}"
-                                        Content="{Binding Title}"
-                                        FontSize="19"
-                                        Height="64"/>
-                            </Border>
-                        </DataTemplate>
-                    </TabStrip.ItemTemplate>
-                </TabStrip>
-                <!--Can't get the nth-last-child(1) selector working for the tab strip,
-                so this masquerades as that last bit of 5 pixel padding.-->
-                <Rectangle Height="5" Fill="Black"/>
-            </StackPanel>
+            <Border Padding="0 5 0 0" Background="Black">
+                <ScrollViewer Grid.Row="0" 
+                              Height="157"
+                              VerticalScrollBarVisibility="Hidden"
+                    Background="{StaticResource LcarsGold}" 
+                              VerticalAlignment="Top">                
+                    <TabStrip x:Name="RoomButtonStrip" 
+                                Background="{StaticResource LcarsGold}"
+                                Margin="0 0 0 5"
+                                ItemsSource="{Binding Rooms}"
+                                SelectedItem="{Binding SelectedRoom}">
+                        <TabStrip.Styles>
+                            <Style Selector="TabStripItem">
+                                <Setter Property="Padding" Value="0"/>
+                                <Setter Property="Margin" Value="0"/>                        
+                            </Style>
+                            <Style Selector="TabStripItem:selected /template/ Border#PART_SelectedPipe">
+                                <Setter Property="IsVisible" Value="False" />
+                            </Style>
+                            <Style Selector="Button">
+                                <Setter Property="Background" Value="{StaticResource LcarsGold}"/>
+                            </Style>
+                            <Style Selector="TabStripItem:selected Button">
+                                <Setter Property="Background" Value="{StaticResource LcarsPeach}"/>
+                            </Style>
+                            <Style Selector="TabStripItem Border#LcarsBorder">
+                                <Setter Property="Padding" Value="0 5 0 0"/>
+                            </Style>
+                            <Style Selector="TabStripItem:nth-child(1) Border#LcarsBorder">
+                                <Setter Property="Padding" Value="0 0 0 0"/>
+                            </Style>
+                            <Style Selector="TabStripItem:nth-last-child(1) Border#LcarsBorder">
+                                <Setter Property="Padding" Value="0 5 0 5"/>
+                            </Style>
+                        </TabStrip.Styles>
+                        <TabStrip.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Vertical"/>
+                            </ItemsPanelTemplate>
+                        </TabStrip.ItemsPanel>
+                        <TabStrip.ItemTemplate>
+                            <DataTemplate DataType="vm:RoomViewModel">
+                                <Border x:Name="LcarsBorder" 
+                                        Background="Black"
+                                        HorizontalAlignment="Center" 
+                                        BorderThickness="0">
+                                    <Button Classes="side"
+                                            Command="{Binding $parent[TabStrip].((vm:MainViewViewModel)DataContext).RoomTappedCommand}"
+                                            CommandParameter="{Binding}"
+                                            Content="{Binding Title}"
+                                            FontSize="19"
+                                            Height="64"/>
+                                </Border>
+                            </DataTemplate>
+                        </TabStrip.ItemTemplate>
+                    </TabStrip>                                
+                </ScrollViewer>
+            </Border>
 
             <!--Settings and power button-->
-            <StackPanel VerticalAlignment="Bottom">
-                
+            <StackPanel Grid.Row="1">
+                <!--Can't get the nth-last-child(1) selector working for the tab strip,
+            so this masquerades as that last bit of 5 pixel padding.-->
                 <Border Background="Black" HorizontalAlignment="Center" BorderThickness="0">                                                            
                     <Button x:Name="SettingsButton" 
                             Classes="side"
@@ -93,8 +112,9 @@
                                     <TextBlock Classes="title" 
                                                Foreground="{StaticResource LcarsBlue}" 
                                                Text="SCREEN BRIGHTNESS"/>
+                                    <!--TODO: Style this slide so it's easier to use on a touchscreen-->
                                     <Slider Minimum="0" Maximum="255"
-                                            Value="{Binding Brightness}"
+                                            Value="{Binding BrightnessService.Brightness, Converter={StaticResource ByteToDoubleConverter}}"
                                             TickFrequency="1" IsSnapToTickEnabled="True" 
                                             Width="200">
                                         <Slider.Styles>

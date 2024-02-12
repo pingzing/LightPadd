@@ -13,13 +13,15 @@ namespace LightPadd.Core.ViewModels;
 
 public partial class MainViewViewModel : ViewModelBase
 {
-    private readonly ScreenBrightnessService _brightnessService;
     private readonly ScreenIdleService _screenIdleService;
     private readonly IOptionsMonitor<HubitatOptions> _hubitatOptions;
     private readonly Timer _debounceTimer = new();
 
+    [ObservableProperty]
+    private IBrightnessService _brightnessService;
+
     public MainViewViewModel(
-        ScreenBrightnessService brightnessService,
+        IBrightnessService brightnessService,
         ScreenIdleService screenIdleService,
         IOptionsMonitor<HubitatOptions> hubitatOptions
     )
@@ -74,16 +76,6 @@ public partial class MainViewViewModel : ViewModelBase
         SelectedRoom = tappedRoomVm;
     }
 
-    public double Brightness
-    {
-        get => _brightnessService.Brightness;
-        set
-        {
-            _brightnessService.Brightness = (byte)value;
-            OnPropertyChanged();
-        }
-    }
-
     public void OnActivity()
     {
         _screenIdleService.ActivityDetected();
@@ -97,7 +89,7 @@ public partial class MainViewViewModel : ViewModelBase
         Rooms =
         [
             new RoomViewModel() { Title = "EXAMPLE ROOM" },
-            new RoomViewModel() { Title = "SECOND ROOM" }
+            new RoomViewModel() { Title = "SECOND ROOM" },
         ];
         SelectedRoom = Rooms.First();
     }

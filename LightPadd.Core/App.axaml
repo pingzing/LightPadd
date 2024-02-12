@@ -53,7 +53,7 @@
         </Style>
 
         <Style Selector="TextBlock.header">
-            <Setter Property="FontSize" Value="45"/>
+            <Setter Property="FontSize" Value="47"/>
             <Setter Property="FontWeight" Value="Light"/>
         </Style>
 
