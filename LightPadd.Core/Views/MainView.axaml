@@ -31,7 +31,9 @@
 
             <!--Room selector-->
             <StackPanel Grid.Column="0">
-                <TabStrip x:Name="RoomButtonStrip" ItemsSource="{Binding Rooms}">
+                <TabStrip x:Name="RoomButtonStrip" 
+                          ItemsSource="{Binding Rooms}"
+                          SelectedItem="{Binding SelectedRoom}">
                     <TabStrip.Styles>
                         <Style Selector="TabStripItem">
                             <Setter Property="Padding" Value="0"/>
@@ -43,7 +45,7 @@
                         <Style Selector="Button">
                             <Setter Property="Background" Value="{StaticResource LcarsGold}"/>
                         </Style>
-                        <Style Selector="Button.selected">
+                        <Style Selector="TabStripItem:selected Button">
                             <Setter Property="Background" Value="{StaticResource LcarsPeach}"/>
                         </Style>
                     </TabStrip.Styles>

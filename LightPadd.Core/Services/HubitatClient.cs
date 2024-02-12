@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -52,7 +54,7 @@ public class HubitatClient
     private async Task<Device[]?> GetDevicesInternal(string filter)
     {
         HttpResponseMessage response = await _client.GetAsync(
-            $"{filter}?access_token={_accessToken}"
+            $"devices/{filter}?access_token={_accessToken}"
         );
         if (!response.IsSuccessStatusCode)
         {
@@ -73,7 +75,7 @@ public class HubitatClient
     public async Task GetEventHistory(string deviceId)
     {
         HttpResponseMessage response = await _client.GetAsync(
-            $"{deviceId}/events?access_token={_accessToken}"
+            $"devices/{deviceId}/events?access_token={_accessToken}"
         );
     }
 
@@ -81,7 +83,7 @@ public class HubitatClient
     public async Task GetCommands(string deviceId)
     {
         HttpResponseMessage response = await _client.GetAsync(
-            $"{deviceId}/commands?access_token={_accessToken}"
+            $"devices/{deviceId}/commands?access_token={_accessToken}"
         );
     }
 
@@ -89,7 +91,7 @@ public class HubitatClient
     public async Task GetCapabilities(string deviceId)
     {
         HttpResponseMessage response = await _client.GetAsync(
-            $"{deviceId}/capabilities?access_token={_accessToken}"
+            $"devices/{deviceId}/capabilities?access_token={_accessToken}"
         );
     }
 
@@ -102,11 +104,12 @@ public class HubitatClient
         string url;
         if (secondary != null && secondary.Length != 0)
         {
-            url = $"{deviceId}/{command}/{string.Join(',', secondary)}?access_token={_accessToken}";
+            url =
+                $"devices/{deviceId}/{command}/{string.Join(',', secondary)}?access_token={_accessToken}";
         }
         else
         {
-            url = $"{deviceId}/{command}?access_token={_accessToken}";
+            url = $"devices/{deviceId}/{command}?access_token={_accessToken}";
         }
         HttpResponseMessage response = await _client.GetAsync(url);
         if (!response.IsSuccessStatusCode)
@@ -115,5 +118,23 @@ public class HubitatClient
         }
         var latestState = await GetDevice(deviceId);
         return latestState;
+    }
+
+    public async Task<bool> SendPostbackUrl(string postbackUrl)
+    {
+        string encodedUrl = WebUtility.UrlEncode(postbackUrl);
+        HttpResponseMessage response = await _client.GetAsync(
+            $"postURL/{encodedUrl}?access_token={_accessToken}"
+        );
+        if (!response.IsSuccessStatusCode)
+        {
+            Console.WriteLine(
+                $"Failed to set Postback URL to {postbackUrl}. Attempted to call {response?.RequestMessage?.RequestUri}."
+                    + $"Received HTTP {response?.StatusCode} with content: {response?.Content.ToString()}"
+            );
+            return false;
+        }
+
+        return true;
     }
 }

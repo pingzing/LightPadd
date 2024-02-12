@@ -10,7 +10,16 @@ public class ScreenBrightnessService
     private const string BacklightFile = "/sys/class/backlight/rpi_backlight/bl_power";
 
     // TODO: Set up file watchers so that if the value changes externally, we can make our slider update
-    public ScreenBrightnessService() { }
+    public ScreenBrightnessService()
+    {
+        // On application startup, ensure that the backlight is on, and that brightness is at least
+        // enough to see, so that we don't get stuck in an uninteractable state.
+        IsScreenOn = true;
+        if (Brightness < 15)
+        {
+            Brightness = 15;
+        }
+    }
 
     private bool _dummyIsScreenOn = true;
     public bool IsScreenOn

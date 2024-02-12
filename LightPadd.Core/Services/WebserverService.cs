@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using System.Timers;
 using CommunityToolkit.Mvvm.Messaging;
 using GenHTTP.Api.Content;
 using GenHTTP.Api.Infrastructure;
@@ -13,6 +14,7 @@ using GenHTTP.Engine;
 using GenHTTP.Modules.Conversion;
 using GenHTTP.Modules.Conversion.Providers;
 using GenHTTP.Modules.Functional;
+using LightPadd.Core.Events;
 using LightPadd.Core.Messaging;
 using LightPadd.Core.Models.Hubitat;
 using LightPadd.Core.Models.Options;
@@ -26,6 +28,7 @@ namespace LightPadd.Core.Services
         private readonly IMessenger _messenger;
         private readonly IOptionsMonitor<HubitatOptions> _hubitatOptions;
         private readonly SerializationBuilder _sourceGenJsonRegistry;
+        private readonly Timer _debounceTimer = new();
 
         public WebserverService(
             IMessenger messenger,
@@ -34,7 +37,18 @@ namespace LightPadd.Core.Services
         {
             _messenger = messenger;
             _hubitatOptions = hubitatOptions;
-            _hubitatOptions.OnChange(OptionsChanged);
+            _hubitatOptions.OnChange(
+                (newOpts) =>
+                {
+                    _debounceTimer.Debounce(
+                        () =>
+                        {
+                            OptionsChanged(newOpts);
+                        },
+                        TimeSpan.FromSeconds(1)
+                    );
+                }
+            );
             _sourceGenJsonRegistry = Serialization
                 .Empty()
                 .Add(ContentType.ApplicationJson, new SourceGenJsonFormat())
@@ -46,6 +60,7 @@ namespace LightPadd.Core.Services
 
         private void OptionsChanged(HubitatOptions options)
         {
+            // TODO: This gets called twice-per-change. Add a throttle delay thingy.
             _host.Stop();
 
             var handlerBuilder = Inline.Create().Formats(_sourceGenJsonRegistry);

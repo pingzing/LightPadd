@@ -1,7 +1,4 @@
 using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Net.Http;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
@@ -14,7 +11,6 @@ using LightPadd.Core.ViewModels;
 using LightPadd.Core.Views;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 
 namespace LightPadd.Core
 {
@@ -24,13 +20,9 @@ namespace LightPadd.Core
         private WebserverService _serverService = null!;
         public IServiceProvider Services { get; private set; } = null!;
 
-        // Any Views that get instantiated indirectly (i.e. via ViewModel -> ViewLocator creation
-        // as a result of data binding).
-        // should be specified here so they don't get trimmed away.
-        [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(RoomView))]
-        [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(SwitchView))]
         public override void Initialize()
         {
+            ViewTrimHinter.RegisterTrimHints();
             Services = ConfigureServices();
             _serverService = Services.GetRequiredService<WebserverService>();
             _messenger = Services.GetRequiredService<IMessenger>();
@@ -66,10 +58,10 @@ namespace LightPadd.Core
             _messenger.Send<AppShutdownMessage>(new(e.ApplicationExitCode));
         }
 
-        // Register types used by config stuff, so they don't get trimmed away.
-        [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(HubitatOptions))]
         private ServiceProvider ConfigureServices()
         {
+            OptionsTrimHinter.RegisterTrimHints();
+
             var config = new ConfigurationBuilder()
                 .SetBasePath(AppContext.BaseDirectory)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
@@ -83,6 +75,7 @@ namespace LightPadd.Core
             // Register configs
 #pragma warning disable IL2026 // Members annotated with 'RequiresUnreferencedCodeAttribute' require dynamic access otherwise can break functionality when trimming application code
             services.Configure<HubitatOptions>(config.GetSection(HubitatOptions.OptionsKey));
+            services.Configure<NetworkOptions>(config.GetSection(NetworkOptions.OptionsKey));
             HubitatOptions hubitatConfig = config
                 .GetSection(HubitatOptions.OptionsKey)
                 .Get<HubitatOptions>()!;

@@ -3,28 +3,43 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Collections;
-using Avalonia.Controls.Primitives;
 using CommunityToolkit.Mvvm.ComponentModel;
 using LightPadd.Core.Models.Hubitat;
 using LightPadd.Core.Models.Options;
+using LightPadd.Core.Networking;
 using LightPadd.Core.Services;
+using Microsoft.Extensions.Options;
 
 namespace LightPadd.Core.ViewModels;
 
-public partial class RoomViewModel : ViewModelBase
+public partial class RoomViewModel : ViewModelBase, IDisposable
 {
-    private readonly HubitatRoom _backingRoom;
     private readonly HubitatClient _client;
+    private readonly HubitatOptions _options;
+    private readonly NetworkOptions _networkOptions;
+    private readonly HubitatRoom _backingRoom;
 
-    public RoomViewModel(HubitatClientFactory clientFactory, HubitatRoom backingRoom)
+    private bool _isDisposed;
+
+    public RoomViewModel(
+        HubitatClientFactory clientFactory,
+        IOptions<HubitatOptions> options,
+        IOptions<NetworkOptions> networkOptions,
+        HubitatRoom backingRoom
+    )
     {
         _client = clientFactory.Create(backingRoom.Id, backingRoom.AccessToken);
+        _options = options.Value;
+        _networkOptions = networkOptions.Value;
         _backingRoom = backingRoom;
         Title = "LOADING...";
     }
 
     public async Task Initialize()
     {
+        bool postbackUrlSet = await SetPostbackUrl();
+        Console.WriteLine($"Setting postback URL in Initiialize's result was: {postbackUrlSet}");
+
         var devices = await _client.GetDevices();
         if (devices == null)
         {
@@ -34,7 +49,7 @@ public partial class RoomViewModel : ViewModelBase
 
         Title = devices.FirstOrDefault()?.Room.ToUpperInvariant() ?? "UNKNOWN ROOM";
 
-        var vms = devices
+        var viewModels = devices
             .Select(x =>
                 VMResolverService.Resolve<SwitchViewModel, Device, HubitatClient, string>(
                     x,
@@ -43,11 +58,13 @@ public partial class RoomViewModel : ViewModelBase
                 )
             )
             .ToList();
-        foreach (var vm in vms)
+
+        foreach (var vm in viewModels)
         {
             vm.PropertyChanged += SwitchVM_PropertyChanged;
         }
-        Switches.AddRange(vms);
+        Switches.AddRange(viewModels);
+
         _totalDevices = Switches.Count;
         DevicesOn = Switches.Where(x => x.IsOn).Count();
     }
@@ -60,6 +77,7 @@ public partial class RoomViewModel : ViewModelBase
 
     private int _totalDevices = 0;
     private int _devicesOn = 0;
+
     public int DevicesOn
     {
         get => _devicesOn;
@@ -71,6 +89,34 @@ public partial class RoomViewModel : ViewModelBase
     }
 
     public string FooterText => $"{DevicesOn} / {_totalDevices}";
+
+    private async Task<bool> SetPostbackUrl()
+    {
+        // Get current IP address, this room's postback URL and port, and glue them all together
+#if DEBUG
+        var localWifiIPs = LocalAddresses.GetLocalIPv4Addresses();
+#else
+        var localWifiIPs = LocalAddresses.GetLocalIPv4Addresses();
+#endif
+        // Only get things that are actually local to THIS router.
+        string networkPrefix = _networkOptions.NetworkPrefix;
+        string? firstWifiIP = localWifiIPs.FirstOrDefault(x => x.StartsWith(networkPrefix));
+        if (firstWifiIP == null)
+        {
+            Console.WriteLine($"Unable to find a valid local IP address. Candidates examined");
+            foreach (string ip in localWifiIPs)
+            {
+                Console.Write(ip + ",");
+            }
+            Console.WriteLine();
+            return false;
+        }
+
+        string postbackUrl =
+            $"http://{firstWifiIP}:{_options.PostbackUrlPort}{_backingRoom.PostbackUrlPath}";
+        Console.WriteLine($"Attempting to set postback url to {postbackUrl}");
+        return await _client.SendPostbackUrl(postbackUrl);
+    }
 
     private void SwitchVM_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
@@ -87,6 +133,32 @@ public partial class RoomViewModel : ViewModelBase
     {
         _backingRoom = null!;
         _client = null!;
+        _options = null!;
+        _networkOptions = null!;
         Title = "ROOM PLACEHOLDER TITLE";
+    }
+
+    protected virtual void Dispose(bool disposingManaged)
+    {
+        if (!_isDisposed)
+        {
+            if (disposingManaged)
+            {
+                foreach (SwitchViewModel switchVM in Switches)
+                {
+                    switchVM.Dispose();
+                }
+            }
+
+            Switches = null!;
+            _isDisposed = true;
+        }
+    }
+
+    public void Dispose()
+    {
+        // Do not change this code. Put cleanup code in 'Dispose(bool disposingManaged)' method
+        Dispose(disposingManaged: true);
+        GC.SuppressFinalize(this);
     }
 }

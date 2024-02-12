@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Timers;
 using Avalonia.Collections;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using LightPadd.Core.Events;
 using LightPadd.Core.Models.Options;
 using LightPadd.Core.Services;
 using Microsoft.Extensions.Options;
@@ -15,6 +16,7 @@ public partial class MainViewViewModel : ViewModelBase
     private readonly ScreenBrightnessService _brightnessService;
     private readonly ScreenIdleService _screenIdleService;
     private readonly IOptionsMonitor<HubitatOptions> _hubitatOptions;
+    private readonly Timer _debounceTimer = new();
 
     public MainViewViewModel(
         ScreenBrightnessService brightnessService,
@@ -25,8 +27,20 @@ public partial class MainViewViewModel : ViewModelBase
         _brightnessService = brightnessService;
         _screenIdleService = screenIdleService;
         _hubitatOptions = hubitatOptions;
-        _hubitatOptions.OnChange(HubitatOptionsChanged);
+        _hubitatOptions.OnChange(
+            (newOpts) =>
+            {
+                _debounceTimer.Debounce(
+                    () =>
+                    {
+                        HubitatOptionsChanged(newOpts);
+                    },
+                    TimeSpan.FromSeconds(1)
+                );
+            }
+        );
 
+        Rooms.ResetBehavior = ResetBehavior.Remove; // Need to do this, or .Clear() won't totally clear things out.
         InitializeRoomList(_hubitatOptions.CurrentValue.Rooms);
     }
 
@@ -37,9 +51,14 @@ public partial class MainViewViewModel : ViewModelBase
 
     private void InitializeRoomList(HubitatRoom[] rooms)
     {
-        // TODO: This seems to result in exactly on extra room on reload. Weird.
+        foreach (RoomViewModel room in Rooms)
+        {
+            room.Dispose();
+        }
+
         Rooms.Clear();
-        Rooms.AddRange(rooms.Select(VMResolverService.Resolve<RoomViewModel, HubitatRoom>));
+        var newRooms = rooms.Select(VMResolverService.Resolve<RoomViewModel, HubitatRoom>);
+        Rooms.AddRange(newRooms);
         SelectedRoom = Rooms.FirstOrDefault();
     }
 
@@ -52,7 +71,6 @@ public partial class MainViewViewModel : ViewModelBase
     [RelayCommand]
     private void RoomTapped(RoomViewModel tappedRoomVm)
     {
-        // TODO: Some restyling?
         SelectedRoom = tappedRoomVm;
     }
 
