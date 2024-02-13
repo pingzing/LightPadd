@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using LightPadd.Core.DeviceBehaviors;
+using LightPadd.Core.DeviceBehaviors.Switches;
 using LightPadd.Core.Messaging;
 using LightPadd.Core.Models.Hubitat;
 using LightPadd.Core.Services;
@@ -39,6 +41,9 @@ public partial class SwitchViewModel : ViewModelBase, IDisposable
             $"{_roomId}-{_backingDevice.Id}",
             OnDeviceEvent
         );
+
+        // TODO: Maybe send refresh command, to make sure that everything on the
+        // network sees its latest state?
     }
 
     [ObservableProperty]
@@ -50,13 +55,27 @@ public partial class SwitchViewModel : ViewModelBase, IDisposable
     [RelayCommand]
     private async Task SwitchToggled(bool isChecked)
     {
-        string command = isChecked ? "on" : "off";
-        var response = await _client.SendCommand(_backingDevice.Id, command);
-        if (response == null)
+        if (
+            !BehaviorMapping.PlugBehaviors.TryGetValue(
+                _backingDevice.Type,
+                out PlugBehaviorBase? deviceBehavior
+            )
+        )
         {
-            Console.WriteLine(
-                $"Failed to update device {_backingDevice.Id} with command {command}"
-            );
+            deviceBehavior = BehaviorMapping.PlugBehaviors[BehaviorMapping.Default];
+        }
+        string[] commands = isChecked
+            ? deviceBehavior.GetOnSequence()
+            : deviceBehavior.GetOffSequence();
+        foreach (string command in commands)
+        {
+            var response = await _client.SendCommand(_backingDevice.Id, command);
+            if (response == null)
+            {
+                Console.WriteLine(
+                    $"Failed to update device {_backingDevice.Name} ({_backingDevice.Id}) with command {command}"
+                );
+            }
         }
     }
 

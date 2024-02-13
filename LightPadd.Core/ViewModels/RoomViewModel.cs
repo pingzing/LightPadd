@@ -102,14 +102,9 @@ public partial class RoomViewModel : ViewModelBase, IDisposable
             return false;
         }
 
-        // Get current IP address, this room's postback URL and port, and glue them all together
-#if DEBUG
         var localWifiIPs = LocalAddresses.GetLocalIPv4Addresses();
-#else
-        var localWifiIPs = LocalAddresses.GetLocalIPv4Addresses();
-#endif
-        // Only get things that are actually local to THIS router.
         string networkPrefix = _networkOptions.NetworkPrefix;
+        // Use a predefined prefix filter to get rid of all the localhost stuff.
         string? firstWifiIP = localWifiIPs.FirstOrDefault(x => x.StartsWith(networkPrefix));
         if (firstWifiIP == null)
         {
