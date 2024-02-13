@@ -32,11 +32,16 @@ public partial class RoomViewModel : ViewModelBase, IDisposable
         _options = options.Value;
         _networkOptions = networkOptions.Value;
         _backingRoom = backingRoom;
+
+        Devices.ResetBehavior = ResetBehavior.Remove;
         Title = "LOADING...";
     }
 
     public async Task Initialize()
     {
+        ClearDevices();
+        Title = "LOADING...";
+
         bool postbackUrlSet = await SetPostbackUrl();
         Console.WriteLine($"Setting postback URL in Initiialize's result was: {postbackUrlSet}");
 
@@ -63,17 +68,17 @@ public partial class RoomViewModel : ViewModelBase, IDisposable
         {
             vm.PropertyChanged += SwitchVM_PropertyChanged;
         }
-        Switches.AddRange(viewModels);
+        Devices.AddRange(viewModels);
 
-        _totalDevices = Switches.Count;
-        DevicesOn = Switches.Where(x => x.IsOn).Count();
+        _totalDevices = Devices.Count;
+        DevicesOn = Devices.Where(x => x.IsOn).Count();
     }
 
     [ObservableProperty]
     private string _title;
 
     [ObservableProperty]
-    private AvaloniaList<SwitchViewModel> _switches = new();
+    private AvaloniaList<SwitchViewModel> _devices = new();
 
     private int _totalDevices = 0;
     private int _devicesOn = 0;
@@ -92,6 +97,11 @@ public partial class RoomViewModel : ViewModelBase, IDisposable
 
     private async Task<bool> SetPostbackUrl()
     {
+        if (!_networkOptions.SetPostbackUrl)
+        {
+            return false;
+        }
+
         // Get current IP address, this room's postback URL and port, and glue them all together
 #if DEBUG
         var localWifiIPs = LocalAddresses.GetLocalIPv4Addresses();
@@ -125,7 +135,16 @@ public partial class RoomViewModel : ViewModelBase, IDisposable
             return;
         }
 
-        DevicesOn = Switches.Where(x => x.IsOn).Count();
+        DevicesOn = Devices.Where(x => x.IsOn).Count();
+    }
+
+    private void ClearDevices()
+    {
+        foreach (var device in Devices)
+        {
+            device.Dispose();
+        }
+        Devices.Clear();
     }
 
     // Designer-only
@@ -144,13 +163,10 @@ public partial class RoomViewModel : ViewModelBase, IDisposable
         {
             if (disposingManaged)
             {
-                foreach (SwitchViewModel switchVM in Switches)
-                {
-                    switchVM.Dispose();
-                }
+                ClearDevices();
             }
 
-            Switches = null!;
+            Devices = null!;
             _isDisposed = true;
         }
     }

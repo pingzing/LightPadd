@@ -19,10 +19,10 @@
 
     <Grid Margin="10 0 10 10"
           RowDefinitions="Auto, *">
-        <TextBlock Grid.Row="0" Text="{Binding Title}" Classes="title" Foreground="{StaticResource LcarsGold}"
+        <TextBlock Grid.Row="0" Text="DEVICES" Classes="title" Foreground="{StaticResource LcarsGold}"
                    Margin="0 0 0 10"/>
         <ItemsControl Grid.Row="1"
-                      ItemsSource="{Binding Switches}"
+                      ItemsSource="{Binding Devices}"
                       VerticalAlignment="Center"
                       HorizontalAlignment="Center"
                       Margin="0 0 0 50">

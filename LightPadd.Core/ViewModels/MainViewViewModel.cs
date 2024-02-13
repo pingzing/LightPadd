@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Timers;
 using Avalonia.Collections;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -69,6 +70,15 @@ public partial class MainViewViewModel : ViewModelBase
 
     [ObservableProperty]
     private RoomViewModel? _selectedRoom = null;
+
+    [RelayCommand]
+    private async Task RefreshRoom()
+    {
+        if (SelectedRoom != null)
+        {
+            await SelectedRoom.Initialize();
+        }
+    }
 
     [RelayCommand]
     private void RoomTapped(RoomViewModel tappedRoomVm)

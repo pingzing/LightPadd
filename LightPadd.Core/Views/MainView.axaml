@@ -24,8 +24,27 @@
 
         <controls:LcarsHeader x:Name="Header"
                               Grid.Row="0"
-                              Content="LIGHTS"
+                              ContentTemplate="{x:Null}"
                               Foreground="{StaticResource LcarsGold}">
+            <controls:LcarsHeader.Content>
+                <Border Background="Black"
+                        Margin="20 0 20 0"
+                        Padding="20 0 20 0"
+                        VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" Spacing="20">
+                        <TextBlock Text="{Binding SelectedRoom.Title}"
+                                   Classes="header"
+                                   FontSize="35"
+                                   TextTrimming="None"
+                                   TextWrapping="NoWrap"/>
+                        <Button Content="REFRESH"
+                                Background="{StaticResource LcarsBlueGray}"
+                                Command="{Binding RefreshRoomCommand}"
+                                FontSize="20"
+                                VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+            </controls:LcarsHeader.Content>
         </controls:LcarsHeader>
         
         <!--Central content-->
@@ -94,6 +113,8 @@
 
             <!--Settings and power button-->
             <StackPanel Grid.Row="1">
+                
+                <!--Settings button-->
                 <Border Background="Black" HorizontalAlignment="Center" BorderThickness="0">                                                            
                     <Button x:Name="SettingsButton" 
                             Classes="side"
@@ -127,6 +148,7 @@
                     </Button>
                 </Border>
 
+                <!--Power button-->
                 <Border Background="Black" HorizontalAlignment="Center" BorderThickness="0">
                     <Button x:Name="PowerButton"
                             Classes="side"

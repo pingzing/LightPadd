@@ -11,4 +11,10 @@ public class NetworkOptions
     /// NOT CIDR-compliant. Simple string.
     /// </summary>
     public string NetworkPrefix { get; set; } = null!;
+
+    /// <summary>
+    /// If <see langword="true"/>, will attempt to set the postback URL for each room
+    /// to this machine's IP address.
+    /// </summary>
+    public bool SetPostbackUrl { get; set; }
 }
