@@ -72,7 +72,7 @@ namespace LightPadd.Core
             var config = new ConfigurationBuilder()
                 .SetBasePath(AppContext.BaseDirectory)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-#if DEBG
+#if DEBUG
                 .AddJsonFile("appsettings.dev.json", optional: true, reloadOnChange: true)
 #endif
                 .Build();
