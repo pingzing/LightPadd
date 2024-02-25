@@ -47,6 +47,7 @@ namespace LightPadd.Core.Services
                     );
                 }
             );
+
             _sourceGenJsonRegistry = Serialization
                 .Empty()
                 .Add(ContentType.ApplicationJson, new SourceGenJsonFormat())

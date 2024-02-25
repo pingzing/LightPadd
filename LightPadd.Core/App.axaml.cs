@@ -13,6 +13,14 @@ using LightPadd.Core.Views;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+// TODO Cleanup for Possibly Other People Running This:
+/*  - Make the IsLinux() checks into something a little more fine-grained (they should probably be IsRaspberryPi() somehow)
+ *  - Make AddHttpClient's "invalid URL" error say something a little more intelligent than "invalid URL".
+ *      At least check for null-or-whitespace?
+ *  - Make failure to send Postback URL NOT crash the app
+ *  - Update appsettings.json in git to contain new Network node.
+ */
+
 namespace LightPadd.Core
 {
     public partial class App : Application
